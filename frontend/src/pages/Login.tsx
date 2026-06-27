@@ -39,7 +39,7 @@ export function Login() {
         <div className="text-center">
           <h1 className="text-3xl font-bold text-white">Entrar</h1>
           <p className="text-zinc-400 mt-2 text-sm">
-            Acesse sua conta do WYD Companion
+            Acesse sua conta do WYD Hub
           </p>
           <p className="text-zinc-600 text-xs mt-1">
             Não use as credenciais do jogo aqui

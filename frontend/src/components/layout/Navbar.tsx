@@ -18,7 +18,7 @@ export function Navbar() {
     <nav className="border-b border-zinc-800 px-6 py-4">
       <div className="flex items-center justify-between">
         <Link to="/" className="text-amber-500 font-bold text-xl tracking-tight leading-tight">
-          WYD Companion
+          WYD Hub
         </Link>
 
         <button

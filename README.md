@@ -1,4 +1,4 @@
-# WYD Companion
+# WYD Hub
 
 Companion app para WYD Global — rastreie seu personagem, gerencie suas dailies e planeje seus recursos.
 
