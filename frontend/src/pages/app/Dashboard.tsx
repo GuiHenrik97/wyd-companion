@@ -38,15 +38,21 @@ function CharacterCard({ char, onClick }: { char: any; onClick: () => void }) {
           <p className="text-zinc-500 text-xs mb-2 uppercase tracking-wide">Selo</p>
           <div className="flex flex-col gap-1">
             <p className="text-zinc-300 text-xs">
-              11th {seal.class1Has11th ? <span className="text-amber-500">✓</span> : <span className="text-zinc-600">✗</span>}
-              {' '}12th {seal.class1Has12th ? <span className="text-amber-500">✓</span> : <span className="text-zinc-600">✗</span>}
-            </p>
-            <p className="text-zinc-300 text-xs">
-              Nível {seal.class1Level || '—'}
+              {seal.class1Level || '—'}{seal.class2Level ? `/${seal.class2Level}` : ''}
             </p>
             {seal.mantleType && (
+              <p className="text-zinc-300 text-xs">
+                Capa: {seal.mantleType} {seal.mantleRefinement != null ? `+${seal.mantleRefinement}` : ''}{seal.mantleAdditional ? ` ${seal.mantleAdditional}` : ''}
+              </p>
+            )}
+            <p className="text-zinc-400 text-xs">
+              L1: 11th {seal.class1Has11th ? <span className="text-amber-500">✓</span> : <span className="text-zinc-600">✗</span>}{' '}
+              12th {seal.class1Has12th ? <span className="text-amber-500">✓</span> : <span className="text-zinc-600">✗</span>}
+            </p>
+            {seal.class2Type && (
               <p className="text-zinc-400 text-xs">
-                Capa: {seal.mantleType} {seal.mantleRefinement ? `+${seal.mantleRefinement}` : ''}
+                L2: 11th {seal.class2Has11th ? <span className="text-amber-500">✓</span> : <span className="text-zinc-600">✗</span>}{' '}
+                12th {seal.class2Has12th ? <span className="text-amber-500">✓</span> : <span className="text-zinc-600">✗</span>}
               </p>
             )}
           </div>
@@ -57,22 +63,15 @@ function CharacterCard({ char, onClick }: { char: any; onClick: () => void }) {
           <div className="flex flex-col gap-1">
             {gear.cytheraType && (
               <p className="text-zinc-300 text-xs">
-                Cythera: {gear.cytheraType} {gear.cytheraRefinement ? `+${gear.cytheraRefinement}` : ''}
+                Cythera: {gear.cytheraType} +{gear.cytheraRefinement ?? 0}
               </p>
             )}
-            {gear.amulet1Type && (
-              <p className="text-zinc-400 text-xs">
-                Amuleto 1: {gear.amulet1Type} +{gear.amulet1Refinement ?? 0}
-              </p>
-            )}
-            {gear.necklaceRefinement > 0 && (
-              <p className="text-zinc-400 text-xs">
-                Colar: T{gear.necklaceItemTier} +{gear.necklaceRefinement}
-              </p>
-            )}
-            {!gear.cytheraType && !gear.amulet1Type && (
-              <p className="text-zinc-600 text-xs">Não configurado</p>
-            )}
+            <p className="text-zinc-400 text-xs">
+              Amuletos: T{gear.amulet1AdditionalTier ?? 0}/T{gear.necklaceAdditionalTier ?? 0}/T{gear.beltAdditionalTier ?? 0}
+            </p>
+            <p className="text-zinc-400 text-xs">
+              Amunra: T{gear.amulet2Tier ?? 0}/T{gear.amulet3Tier ?? 0}/T{gear.amulet4Tier ?? 0}
+            </p>
           </div>
         </div>
 
@@ -82,17 +81,18 @@ function CharacterCard({ char, onClick }: { char: any; onClick: () => void }) {
             {items.weaponType && (
               <p className="text-zinc-300 text-xs">
                 Arma: {items.weaponType} +{items.weaponRefinement ?? 0}
-                {items.weaponAncient ? ' Anct' : ''}
               </p>
             )}
-            {items.chestType && (
-              <p className="text-zinc-400 text-xs">
-                Peito: {items.chestType} +{items.chestRefinement ?? 0}
-              </p>
-            )}
+            {(() => {
+              const armorSlots = ['chest', 'pants', 'gloves', 'boots']
+              const filled = armorSlots.filter(s => items[`${s}Type`])
+              if (filled.length === 0) return null
+              const avg = Math.round(filled.reduce((acc, s) => acc + (items[`${s}Refinement`] ?? 0), 0) / filled.length)
+              return <p className="text-zinc-400 text-xs">Set: +{avg}</p>
+            })()}
             {items.mountType && (
               <p className="text-zinc-400 text-xs">
-                {items.mountType.replace(/_/g, ' ')} {items.mountLevel ? `Nv${items.mountLevel}` : ''}
+                {items.mountType.replace(/_/g, ' ')} {items.mountLevel ?? 0} Ql {items.mountQuality ?? 0}
               </p>
             )}
             {!items.weaponType && !items.chestType && (

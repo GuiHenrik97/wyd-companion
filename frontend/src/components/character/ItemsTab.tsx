@@ -51,10 +51,12 @@ export function ItemsTab({ character }: { character: any }) {
     weaponType: items.weaponType ?? '',
     weaponRefinement: items.weaponRefinement ?? 0,
     weaponAdditional: items.weaponAdditional ?? '',
+    weaponName: items.weaponName ?? '',
     weaponAncient: items.weaponAncient ?? false,
     weapon2Type: items.weapon2Type ?? '',
     weapon2Refinement: items.weapon2Refinement ?? 0,
     weapon2Additional: items.weapon2Additional ?? '',
+    weapon2Name: items.weapon2Name ?? '',
     weapon2Ancient: items.weapon2Ancient ?? false,
     mountType: items.mountType ?? '',
     mountLevel: items.mountLevel ?? 0,
@@ -116,6 +118,7 @@ export function ItemsTab({ character }: { character: any }) {
           </div>
           <RefineSelect label="Refinação" value={form.weaponRefinement} onChange={v => set('weaponRefinement', v)} />
         </div>
+        <Input label="Nome" placeholder="Ex: Moondance" value={form.weaponName} onChange={e => set('weaponName', e.target.value)} />
         <Input label="Adicional (BS/base)" placeholder="ex: Gram +9" value={form.weaponAdditional} onChange={e => set('weaponAdditional', e.target.value)} />
         <label className={`flex items-center gap-2 text-sm cursor-pointer ${form.weaponRefinement < 9 ? 'opacity-40 cursor-not-allowed' : 'text-zinc-300'}`}>
           <input type="checkbox" className="accent-amber-500" disabled={form.weaponRefinement < 9}
@@ -137,6 +140,7 @@ export function ItemsTab({ character }: { character: any }) {
           </div>
           <RefineSelect label="Refinação" value={form.weapon2Refinement} onChange={v => set('weapon2Refinement', v)} />
         </div>
+        <Input label="Nome" placeholder="Ex: Axe" value={form.weapon2Name} onChange={e => set('weapon2Name', e.target.value)} />
         <Input label="Adicional (BS/base)" placeholder="ex: Gram +9" value={form.weapon2Additional} onChange={e => set('weapon2Additional', e.target.value)} />
         <label className={`flex items-center gap-2 text-sm cursor-pointer ${form.weapon2Refinement < 9 ? 'opacity-40 cursor-not-allowed' : 'text-zinc-300'}`}>
           <input type="checkbox" className="accent-amber-500" disabled={form.weapon2Refinement < 9}

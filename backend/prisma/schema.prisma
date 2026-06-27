@@ -113,6 +113,8 @@ model ItemSet {
   weapon2Refinement Int?
   weapon2Additional String?
   weapon2Ancient    Boolean @default(false)
+  weaponName        String?
+  weapon2Name       String?
   mountType        MountType?
   mountLevel       Int?
   mountVitality    Int?
