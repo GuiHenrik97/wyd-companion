@@ -24,6 +24,7 @@ import { MarkTaskDoneUseCase } from './application/use-cases/daily/mark-task-don
 import { AuthController } from './interface/controllers/auth.controller'
 import { CharacterController } from './interface/controllers/character.controller'
 import { DailyController } from './interface/controllers/daily.controller'
+import { CalculatorController } from './interface/controllers/calculator.controller'
 
 import { USER_REPOSITORY } from './application/ports/user.repository.port'
 import { CHARACTER_REPOSITORY } from './application/ports/character.repository.port'
@@ -38,7 +39,7 @@ import { DAILY_LOG_REPOSITORY } from './application/ports/daily-log.repository.p
       signOptions: { expiresIn: '15m' },
     }),
   ],
-  controllers: [AuthController, CharacterController, DailyController],
+  controllers: [AuthController, CharacterController, DailyController, CalculatorController],
   providers: [
     PrismaService,
     JwtStrategy,

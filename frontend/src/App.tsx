@@ -9,6 +9,7 @@ import { Dashboard } from './pages/app/Dashboard'
 import { CharacterPage } from './pages/app/CharacterPage'
 import { Timers } from './pages/app/Timers'
 import { AudioPlayer } from './components/ui/AudioPlayer'
+import { Calculator } from './pages/Calculator'
 
 export default function App() {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated)
@@ -36,6 +37,7 @@ export default function App() {
           <Route path="/app/timers" element={
             <ProtectedRoute><Timers /></ProtectedRoute>
           } />
+          <Route path="/calculadora" element={<Calculator />} />
         </Routes>
         <footer className="mt-16 pt-8 border-t border-zinc-800 text-center flex flex-col gap-1 pb-8">
           <p className="text-zinc-600 text-xs">
