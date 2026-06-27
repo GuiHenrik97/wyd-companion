@@ -47,12 +47,18 @@ function CharacterCard({ char, onClick }: { char: any; onClick: () => void }) {
             )}
             <p className="text-zinc-400 text-xs">
               L1: 11th {seal.class1Has11th ? <span className="text-amber-500">✓</span> : <span className="text-zinc-600">✗</span>}{' '}
-              12th {seal.class1Has12th ? <span className="text-amber-500">✓</span> : <span className="text-zinc-600">✗</span>}
+              12th {seal.class1Has12th ? <span className="text-amber-500">✓</span> : <span className="text-zinc-600">✗</span>}{' '}
+              Esp {seal.class1Spectral ? <span className="text-amber-500">✓</span> : <span className="text-zinc-600">✗</span>}{' '}
+              Con {seal.class1Concentration ? <span className="text-amber-500">✓</span> : <span className="text-zinc-600">✗</span>}{' '}
+              Res {seal.class1Resurrection ? <span className="text-amber-500">✓</span> : <span className="text-zinc-600">✗</span>}
             </p>
             {seal.class2Type && (
               <p className="text-zinc-400 text-xs">
                 L2: 11th {seal.class2Has11th ? <span className="text-amber-500">✓</span> : <span className="text-zinc-600">✗</span>}{' '}
-                12th {seal.class2Has12th ? <span className="text-amber-500">✓</span> : <span className="text-zinc-600">✗</span>}
+                12th {seal.class2Has12th ? <span className="text-amber-500">✓</span> : <span className="text-zinc-600">✗</span>}{' '}
+                Esp {seal.class2Spectral ? <span className="text-amber-500">✓</span> : <span className="text-zinc-600">✗</span>}{' '}
+                Con {seal.class2Concentration ? <span className="text-amber-500">✓</span> : <span className="text-zinc-600">✗</span>}{' '}
+                Res {seal.class2Resurrection ? <span className="text-amber-500">✓</span> : <span className="text-zinc-600">✗</span>}
               </p>
             )}
           </div>
