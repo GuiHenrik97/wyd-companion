@@ -1,10 +1,10 @@
 import { IsString, IsOptional, IsBoolean, IsEnum, IsInt, Min, Max } from 'class-validator'
-import { ClassType, MantleType } from '../../domain/enums/equipment-type.enum'
-import { ClassType as CT } from '../../domain/enums/class-type.enum'
+import { ClassType } from '../../domain/enums/class-type.enum'
+import { MantleType } from '../../domain/enums/equipment-type.enum'
 
 export class UpdateSealDto {
-  @IsOptional() @IsEnum(CT) bodyClass?: CT
-  @IsOptional() @IsEnum(CT) class1Type?: CT
+  @IsOptional() @IsEnum(ClassType) bodyClass?: ClassType
+  @IsOptional() @IsEnum(ClassType) class1Type?: ClassType
   @IsOptional() @IsString() class1Lineage?: string
   @IsOptional() @IsInt() @Min(0) class1Level?: number
   @IsOptional() @IsBoolean() class1Has11th?: boolean
@@ -12,7 +12,7 @@ export class UpdateSealDto {
   @IsOptional() @IsBoolean() class1Spectral?: boolean
   @IsOptional() @IsBoolean() class1Concentration?: boolean
   @IsOptional() @IsBoolean() class1Resurrection?: boolean
-  @IsOptional() @IsEnum(CT) class2Type?: CT
+  @IsOptional() @IsEnum(ClassType) class2Type?: ClassType
   @IsOptional() @IsString() class2Lineage?: string
   @IsOptional() @IsInt() @Min(0) class2Level?: number
   @IsOptional() @IsBoolean() class2Has11th?: boolean

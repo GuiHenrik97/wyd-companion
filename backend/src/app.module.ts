@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common'
+import { ConfigModule } from '@nestjs/config'
 import { JwtModule } from '@nestjs/jwt'
 import { PassportModule } from '@nestjs/passport'
 
@@ -30,6 +31,7 @@ import { DAILY_LOG_REPOSITORY } from './application/ports/daily-log.repository.p
 
 @Module({
   imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
     PassportModule,
     JwtModule.register({
       secret: process.env.JWT_SECRET,
@@ -39,8 +41,9 @@ import { DAILY_LOG_REPOSITORY } from './application/ports/daily-log.repository.p
   controllers: [AuthController, CharacterController, DailyController],
   providers: [
     PrismaService,
-    BcryptService,
     JwtStrategy,
+
+    { provide: 'BCRYPT_SERVICE', useClass: BcryptService },
 
     { provide: USER_REPOSITORY, useClass: PrismaUserRepository },
     { provide: CHARACTER_REPOSITORY, useClass: PrismaCharacterRepository },
