@@ -14,7 +14,10 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }))
   app.enableCors({
-    origin: /^http:\/\/localhost:\d+$/,
+    origin: [
+      /^http:\/\/localhost:\d+$/,
+      'https://vivacious-radiance-production-7e58.up.railway.app',
+    ],
     credentials: true,
     methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
