@@ -1,0 +1,197 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String      @id @default(uuid())
+  email        String      @unique
+  passwordHash String
+  refreshToken String?
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  characters   Character[]
+}
+
+model Character {
+  id           String        @id @default(uuid())
+  userId       String
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  nick         String
+  guild        String?
+  hasGuild     Boolean       @default(false)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  seal         Seal?
+  accountGear  AccountGear?
+  itemSet      ItemSet?
+  dailyLogs    DailyLog[]
+  checkinCycle CheckinCycle?
+}
+
+model Seal {
+  id          String    @id @default(uuid())
+  characterId String    @unique
+  character   Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+  bodyClass   ClassType
+  class1Type        ClassType
+  class1Lineage     String
+  class1Level       Int       @default(0)
+  class1Has11th     Boolean   @default(false)
+  class1Has12th     Boolean   @default(false)
+  class1Spectral        Boolean @default(false)
+  class1Concentration   Boolean @default(false)
+  class1Resurrection    Boolean @default(false)
+  class2Type        ClassType?
+  class2Lineage     String?
+  class2Level       Int?
+  class2Has11th     Boolean   @default(false)
+  class2Has12th     Boolean   @default(false)
+  class2Spectral        Boolean @default(false)
+  class2Concentration   Boolean @default(false)
+  class2Resurrection    Boolean @default(false)
+  mantleType       MantleType?
+  mantleRefinement Int?
+  mantleAdditional String?
+  mantleTier       Int?
+}
+
+model AccountGear {
+  id          String    @id @default(uuid())
+  characterId String    @unique
+  character   Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+  cytheraType       CytheraType?
+  cytheraRefinement Int?
+  cytheraAdditional String?
+  amulet1Type           AmuletSlotType?
+  amulet1ItemTier       Int?
+  amulet1Refinement     Int?
+  amulet1AdditionalTier Int?
+  amulet2Refinement Int?
+  amulet2Tier       Int?
+  amulet3Refinement Int?
+  amulet3Tier       Int?
+  amulet4Refinement Int?
+  amulet4Tier       Int?
+  necklaceItemTier       Int?
+  necklaceRefinement     Int?
+  necklaceAdditionalTier Int?
+  beltItemTier       Int?
+  beltRefinement     Int?
+  beltAdditionalTier Int?
+}
+
+model ItemSet {
+  id          String    @id @default(uuid())
+  characterId String    @unique
+  character   Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+  suit             SuitType?
+  helmetType       EquipmentType?
+  helmetRefinement Int?
+  helmetAdditional String?
+  chestType        EquipmentType?
+  chestRefinement  Int?
+  chestAdditional  String?
+  pantsType        EquipmentType?
+  pantsRefinement  Int?
+  pantsAdditional  String?
+  glovesType       EquipmentType?
+  glovesRefinement Int?
+  glovesAdditional String?
+  bootsType        EquipmentType?
+  bootsRefinement  Int?
+  bootsAdditional  String?
+  weaponType       WeaponEquipmentType?
+  weaponRefinement Int?
+  weaponAdditional String?
+  weaponAncient    Boolean @default(false)
+  mountType        MountType?
+  mountLevel       Int?
+  mountVitality    Int?
+  mountQuality     Int?
+}
+
+model CheckinCycle {
+  id          String    @id @default(uuid())
+  characterId String    @unique
+  character   Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+  currentDay  Int       @default(1)
+  lastCheckin DateTime?
+}
+
+model DailyLog {
+  id          String    @id @default(uuid())
+  characterId String
+  character   Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+  date        DateTime
+  checkinDone     Boolean @default(false)
+  desertDone      Boolean @default(false)
+  spoilsDone      Boolean @default(false)
+  infernalCount   Int     @default(0)
+  mortalDelivered Boolean @default(false)
+  towersDone  Boolean?
+  kefraDone   Boolean?
+  cityWarDone Boolean?
+
+  @@unique([characterId, date])
+}
+
+enum ClassType {
+  TK
+  FM
+  BM
+  HT
+}
+
+enum EquipmentType {
+  MORTAL
+  ARCH
+  CELESTIAL
+  RD
+  BAHAMUT
+}
+
+enum WeaponEquipmentType {
+  MORTAL
+  ARCH
+  CELESTIAL
+  RD
+}
+
+enum CytheraType {
+  M
+  A
+  AMUNRA
+  BAHAMUT
+  ANUBIS
+}
+
+enum MantleType {
+  CELESTIAL
+  BAHAMUT
+}
+
+enum MountType {
+  TF
+  DV
+  DL
+  CHACAL_AZUL
+  CHACAL_VERMELHO
+  JACKAL_BLAZEBORN
+  JACKAL_FROSTBORN
+}
+
+enum SuitType {
+  S1200
+  S1300
+  S1400
+}
+
+enum AmuletSlotType {
+  BRINCO
+  AMUNRA
+}
