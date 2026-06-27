@@ -30,8 +30,12 @@ export function Login() {
   }
 
   return (
-    <main className="flex items-center justify-center min-h-[90vh] px-6">
-      <div className="w-full max-w-md flex flex-col gap-8">
+    <div className="relative min-h-[90vh] flex items-center justify-center px-6">
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: "url('/bg-login.png')", opacity: 0.15 }}
+      />
+      <div className="relative z-10 w-full max-w-md flex flex-col gap-8">
         <div className="text-center">
           <h1 className="text-3xl font-bold text-white">Entrar</h1>
           <p className="text-zinc-400 mt-2 text-sm">
@@ -72,6 +76,6 @@ export function Login() {
           </Link>
         </p>
       </div>
-    </main>
+    </div>
   )
 }
