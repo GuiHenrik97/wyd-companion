@@ -16,7 +16,7 @@ async function bootstrap() {
   app.enableCors({
     origin: [
       /^http:\/\/localhost:\d+$/,
-      'https://vivacious-radiance-production-7e58.up.railway.app',
+      /^https:\/\/.*\.up\.railway\.app$/,
     ],
     credentials: true,
     methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'],
