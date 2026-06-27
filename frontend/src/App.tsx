@@ -8,6 +8,7 @@ import { Register } from './pages/Register'
 import { Dashboard } from './pages/app/Dashboard'
 import { CharacterPage } from './pages/app/CharacterPage'
 import { Timers } from './pages/app/Timers'
+import { AudioPlayer } from './components/ui/AudioPlayer'
 
 export default function App() {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated)
@@ -48,6 +49,7 @@ export default function App() {
           </p>
         </footer>
       </div>
+      <AudioPlayer />
     </div>
   )
 }

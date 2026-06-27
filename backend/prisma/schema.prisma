@@ -15,6 +15,7 @@ model User {
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
   characters   Character[]
+  inventory    PlayerInventory[]
 }
 
 model Character {
@@ -202,4 +203,80 @@ enum SuitType {
 enum AmuletSlotType {
   BRINCO
   AMUNRA
+}
+
+model Resource {
+  id           String           @id @default(uuid())
+  name         String           @unique
+  slug         String           @unique
+  category     ResourceCategory
+  mobile       Boolean          @default(true)
+  obtainHint   String?
+  createdAt    DateTime         @default(now())
+
+  processResources ProcessResource[]
+  inventoryItems   PlayerInventory[]
+}
+
+model Process {
+  id          String          @id @default(uuid())
+  name        String
+  category    ProcessCategory
+  fromLevel   Int?
+  toLevel     Int?
+  successRate Float?
+  notes       String?
+  createdAt   DateTime        @default(now())
+
+  resources   ProcessResource[]
+}
+
+model ProcessResource {
+  id               String   @id @default(uuid())
+  processId        String
+  process          Process  @relation(fields: [processId], references: [id], onDelete: Cascade)
+  resourceId       String
+  resource         Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  quantity         Int
+  isConsumedOnFail Boolean  @default(true)
+
+  @@unique([processId, resourceId])
+}
+
+model PlayerInventory {
+  id         String   @id @default(uuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  resourceId String
+  resource   Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  quantity   Int      @default(0)
+  notes      String?
+  updatedAt  DateTime @updatedAt
+
+  @@unique([userId, resourceId])
+}
+
+enum ResourceCategory {
+  POWDER
+  CRYSTAL
+  STONE
+  EMBLEM
+  MEDAL
+  DRAGON
+  BAHAMUT
+  TEAR
+  CYTHERA
+  MANTLE
+  MOUNT
+  COIN
+  OTHER
+}
+
+enum ProcessCategory {
+  ARMOR
+  WEAPON
+  CYTHERA
+  ACCESSORY
+  MANTLE
+  MOUNT
 }
