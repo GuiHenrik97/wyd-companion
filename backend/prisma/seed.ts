@@ -145,7 +145,7 @@ async function main() {
       ]
     },
     {
-      name: 'Composição Armadura Mortal/Arch +11→+14',
+      name: 'Refinação Armadura Mortal/Arch +11→+14',
       category: 'ARMOR',
       fromLevel: 11, toLevel: 14,
       notes: '4 refinações abençoadas + 20 PL + 1kk gold por tentativa.',
@@ -155,7 +155,7 @@ async function main() {
       ]
     },
     {
-      name: 'Composição Armadura Mortal/Arch +14→+15',
+      name: 'Refinação Armadura Mortal/Arch +14→+15',
       category: 'ARMOR',
       fromLevel: 14, toLevel: 15,
       notes: 'Usa 2 proteções no lugar de 20 PL para evitar cair para +13 em falha.',
@@ -174,40 +174,47 @@ async function main() {
       ]
     },
     {
-      name: 'Composição Armadura Celestial +11→+12',
+      name: 'Refinação Armadura Celestial +11→+12',
       category: 'ARMOR',
       fromLevel: 11, toLevel: 12,
       successRate: null,
-      notes: '4 essências +0 + 10 Soul Frag + 1 Valk + 75kk gold.',
+      notes: 'Requer 4 essências +0 e 10 Soul Fragment (adicionar ao inventário manualmente).',
       resources: [
         { slug: 'emblema-valk', quantity: 1, isConsumedOnFail: true },
+        { slug: 'soul-fragment', quantity: 10, isConsumedOnFail: true },
         { slug: 'gold', quantity: 75, isConsumedOnFail: true },
       ]
     },
     {
-      name: 'Composição Armadura Celestial +12→+13',
+      name: 'Refinação Armadura Celestial +12→+13',
       category: 'ARMOR',
       fromLevel: 12, toLevel: 13,
+      notes: 'Requer 4 essências +0 e 10 Soul Fragment (adicionar ao inventário manualmente).',
       resources: [
         { slug: 'emblema-valk', quantity: 1, isConsumedOnFail: true },
+        { slug: 'soul-fragment', quantity: 10, isConsumedOnFail: true },
         { slug: 'gold', quantity: 100, isConsumedOnFail: true },
       ]
     },
     {
-      name: 'Composição Armadura Celestial +13→+14',
+      name: 'Refinação Armadura Celestial +13→+14',
       category: 'ARMOR',
       fromLevel: 13, toLevel: 14,
+      notes: 'Requer 4 essências +9 e 10 Soul Fragment (adicionar ao inventário manualmente).',
       resources: [
         { slug: 'emblema-valk', quantity: 1, isConsumedOnFail: true },
+        { slug: 'soul-fragment', quantity: 10, isConsumedOnFail: true },
         { slug: 'gold', quantity: 150, isConsumedOnFail: true },
       ]
     },
     {
-      name: 'Composição Armadura Celestial +14→+15',
+      name: 'Refinação Armadura Celestial +14→+15',
       category: 'ARMOR',
       fromLevel: 14, toLevel: 15,
+      notes: 'Requer 4 essências +9 e 10 Soul Fragment (adicionar ao inventário manualmente).',
       resources: [
         { slug: 'emblema-valk', quantity: 1, isConsumedOnFail: true },
+        { slug: 'soul-fragment', quantity: 10, isConsumedOnFail: true },
         { slug: 'gold', quantity: 200, isConsumedOnFail: true },
       ]
     },
