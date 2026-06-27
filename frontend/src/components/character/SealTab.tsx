@@ -69,24 +69,24 @@ export function SealTab({ character }: { character: any }) {
             <div className="grid grid-cols-2 gap-4">
               <div className="flex flex-col gap-1">
                 <label className="text-sm text-zinc-400">Classe</label>
-                <select value={form[`${prefix}Type`]} onChange={e => set(`${prefix}Type`, e.target.value)}
+                <select value={(form as any)[`${prefix}Type`]} onChange={e => set(`${prefix}Type`, e.target.value)}
                   className="bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-amber-500">
                   {isOptional && <option value="">— Nenhuma —</option>}
                   {CLASS_OPTIONS.map(c => <option key={c} value={c}>{c}</option>)}
                 </select>
               </div>
               <Input label="Linhagem" placeholder="ex: HT Sobrevivência"
-                value={form[`${prefix}Lineage`]} onChange={e => set(`${prefix}Lineage`, e.target.value)} />
+                value={(form as any)[`${prefix}Lineage`]} onChange={e => set(`${prefix}Lineage`, e.target.value)} />
             </div>
             <Input label="Nível" type="number" min={0}
-              value={form[`${prefix}Level`]} onChange={e => set(`${prefix}Level`, Number(e.target.value))} />
+              value={(form as any)[`${prefix}Level`]} onChange={e => set(`${prefix}Level`, Number(e.target.value))} />
             <div className="flex flex-col gap-2">
               <label className="text-sm text-zinc-400">Skills</label>
               <div className="flex flex-wrap gap-4">
                 {['Has11th', 'Has12th'].map(skill => (
                   <label key={skill} className="flex items-center gap-2 text-sm text-zinc-300 cursor-pointer">
                     <input type="checkbox" className="accent-amber-500"
-                      checked={form[`${prefix}${skill}`]}
+                      checked={(form as any)[`${prefix}${skill}`]}
                       onChange={e => set(`${prefix}${skill}`, e.target.checked)} />
                     {skill === 'Has11th' ? '11th Skill' : '12th Skill'}
                   </label>
@@ -99,7 +99,7 @@ export function SealTab({ character }: { character: any }) {
                 {['Spectral', 'Concentration', 'Resurrection'].map(s => (
                   <label key={s} className="flex items-center gap-2 text-sm text-zinc-300 cursor-pointer">
                     <input type="checkbox" className="accent-amber-500"
-                      checked={form[`${prefix}${s}`]}
+                      checked={(form as any)[`${prefix}${s}`]}
                       onChange={e => set(`${prefix}${s}`, e.target.checked)} />
                     {s === 'Spectral' ? 'Espectral' : s === 'Concentration' ? 'Concentração' : 'Ressurreição'}
                   </label>

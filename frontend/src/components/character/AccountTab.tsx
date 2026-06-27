@@ -109,10 +109,10 @@ export function AccountTab({ character }: { character: any }) {
         <div key={n} className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 flex flex-col gap-4">
           <h2 className="text-white font-medium">Amunra {n}</h2>
           <div className="grid grid-cols-2 gap-4">
-            <RefineSelect label="Refinação" value={form[`amulet${n}Refinement`]} onChange={v => set(`amulet${n}Refinement`, v)} />
+            <RefineSelect label="Refinação" value={(form as any)[`amulet${n}Refinement`]} onChange={v => set(`amulet${n}Refinement`, v)} />
             <div className="flex flex-col gap-1">
               <label className="text-sm text-zinc-400">Tier</label>
-              <select value={form[`amulet${n}Tier`]} onChange={e => set(`amulet${n}Tier`, Number(e.target.value))}
+              <select value={(form as any)[`amulet${n}Tier`]} onChange={e => set(`amulet${n}Tier`, Number(e.target.value))}
                 className="bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-amber-500">
                 {Array.from({ length: 9 }, (_, i) => <option key={i} value={i}>T{i}</option>)}
               </select>
@@ -130,15 +130,15 @@ export function AccountTab({ character }: { character: any }) {
           <div className="grid grid-cols-3 gap-3">
             <div className="flex flex-col gap-1">
               <label className="text-sm text-zinc-400">Tier item</label>
-              <select value={form[`${key}ItemTier`]} onChange={e => set(`${key}ItemTier`, Number(e.target.value))}
+              <select value={(form as any)[`${key}ItemTier`]} onChange={e => set(`${key}ItemTier`, Number(e.target.value))}
                 className="bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-amber-500">
                 {[1,2,3].map(t => <option key={t} value={t}>T{t}</option>)}
               </select>
             </div>
-            <RefineSelect label="Refinação" value={form[`${key}Refinement`]} onChange={v => set(`${key}Refinement`, v)} />
+            <RefineSelect label="Refinação" value={(form as any)[`${key}Refinement`]} onChange={v => set(`${key}Refinement`, v)} />
             <div className="flex flex-col gap-1">
               <label className="text-sm text-zinc-400">Tier adicional</label>
-              <select value={form[`${key}AdditionalTier`]} onChange={e => set(`${key}AdditionalTier`, Number(e.target.value))}
+              <select value={(form as any)[`${key}AdditionalTier`]} onChange={e => set(`${key}AdditionalTier`, Number(e.target.value))}
                 className="bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-amber-500">
                 {Array.from({ length: 8 }, (_, i) => <option key={i} value={i}>T{i}</option>)}
               </select>
