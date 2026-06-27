@@ -25,18 +25,20 @@ const FILTER_ORDER: Record<string, number> = {
 
 function getProcessTier(name: string): string {
   const n = name.toUpperCase()
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
   if (n.includes('MORTAL')) return 'MORTAL'
   if (n.includes('ARCH')) return 'ARCH'
   if (n.includes('CELESTIAL')) return 'CELESTIAL'
-  if (n.includes('RED DRAGON') || n.includes(' RD')) return 'RD'
+  if (n.includes(' RD') || n.includes('RD ') || n.includes('RED DRAGON')) return 'RD'
   if (n.includes('BAHAMUT')) return 'BAHAMUT'
-  if (n.includes('MÍSTICA') || n.includes('MISTICA')) return 'MISTICA'
+  if (n.includes('MISTICA') || n.includes('MYSTICA')) return 'MISTICA'
   if (n.includes('ARCANA')) return 'ARCANA'
   if (n.includes('AMUNRA')) return 'AMUNRA'
-  if (n.includes('ANÚBIS') || n.includes('ANUBIS')) return 'ANUBIS'
+  if (n.includes('ANUBIS')) return 'ANUBIS'
   if (n.includes('ANCIENT')) return 'ANCIENT'
   if (n.includes('JACKAL')) return 'JACKAL'
-  if (n.includes('MONTARIA') || n.includes('NÍVEL')) return 'MONTARIA'
+  if (n.includes('MONTARIA') || n.includes('NIVEL') || n.includes('QUALIDADE')) return 'MONTARIA'
   return 'OTHER'
 }
 
@@ -136,6 +138,7 @@ export function Calculator() {
     calculatorApi.getProcesses().then(({ data }) => {
       setProcesses(data)
       setLoading(false)
+      console.log('Processes loaded:', data.length, data.map((p: any) => p.category))
     })
   }, [])
 
@@ -148,9 +151,19 @@ export function Calculator() {
   const filtered = processes
     .filter(p => {
       if (p.category !== activeTab) return false
-      if (!p.name.toLowerCase().includes(search.toLowerCase())) return false
+      const nameMatch = p.name
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[̀-ͯ]/g, '')
+        .includes(
+          search.toLowerCase()
+            .normalize('NFD')
+            .replace(/[̀-ͯ]/g, '')
+        )
+      if (!nameMatch) return false
       if (activeFilters.length === 0) return true
-      return activeFilters.includes(getProcessTier(p.name))
+      const tier = getProcessTier(p.name)
+      return activeFilters.includes(tier)
     })
     .sort((a, b) => getProcessOrder(a) - getProcessOrder(b))
 
