@@ -37,4 +37,11 @@ export class PrismaDailyLogRepository implements DailyLogRepositoryPort {
       data: { currentDay: nextDay, lastCheckin: new Date() },
     })
   }
+
+  async setCheckinDay(characterId: string, day: number): Promise<void> {
+    await this.prisma.checkinCycle.update({
+      where: { characterId },
+      data: { currentDay: day },
+    })
+  }
 }

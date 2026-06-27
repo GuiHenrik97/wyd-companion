@@ -25,6 +25,7 @@ export class GetTodayTasksUseCase {
       { type: TaskType.MORTAL, done: log?.mortalDelivered ?? false },
       { type: TaskType.DESERTO, done: log?.desertDone ?? false },
       { type: TaskType.ESPOLIOS, done: log?.spoilsDone ?? false },
+      { type: TaskType.CACA, bossDone: log?.cacaBossDone ?? false, deliveryDone: log?.cacaDeliveryDone ?? false },
     ]
 
     if (character.hasGuild) {

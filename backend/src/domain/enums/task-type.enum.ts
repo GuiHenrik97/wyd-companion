@@ -7,6 +7,7 @@ export enum TaskType {
   TORRES = 'TORRES',
   KEFRA = 'KEFRA',
   CIDADE = 'CIDADE',
+  CACA = 'CACA',
 }
 
 // Tarefas que só aparecem se o personagem tem guild

@@ -1,4 +1,3 @@
-version: '3.9'
 services:
   postgres:
     image: postgres:16-alpine
@@ -10,6 +9,11 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U wyd -d wyd_companion"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   backend:
     build: ./backend
@@ -21,12 +25,13 @@ services:
     ports:
       - "3001:3001"
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
 
   frontend:
     build: ./frontend
     ports:
-      - "5173:5173"
+      - "80:80"
     depends_on:
       - backend
 

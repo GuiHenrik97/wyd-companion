@@ -136,6 +136,8 @@ model DailyLog {
   towersDone  Boolean?
   kefraDone   Boolean?
   cityWarDone Boolean?
+  cacaBossDone     Boolean @default(false)
+  cacaDeliveryDone Boolean @default(false)
 
   @@unique([characterId, date])
 }

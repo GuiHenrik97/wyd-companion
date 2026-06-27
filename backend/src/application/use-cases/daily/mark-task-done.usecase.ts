@@ -10,7 +10,7 @@ export class MarkTaskDoneUseCase {
     @Inject(CHARACTER_REPOSITORY) private characterRepo: CharacterRepositoryPort,
   ) {}
 
-  async execute(characterId: string, userId: string, task: TaskType) {
+  async execute(characterId: string, userId: string, task: TaskType, action?: string) {
     const character = await this.characterRepo.findById(characterId)
     if (!character || character.userId !== userId) {
       throw new NotFoundException('Personagem não encontrado')
@@ -18,6 +18,29 @@ export class MarkTaskDoneUseCase {
 
     const today = new Date()
     const log = await this.dailyRepo.findByCharacterAndDate(characterId, today)
+
+    if (action === 'unmark') {
+      const fieldMap: Record<string, any> = {
+        [TaskType.CHECKIN]: { checkinDone: false },
+        [TaskType.INFERNAL]: { infernalCount: 0 },
+        [TaskType.MORTAL]: { mortalDelivered: false },
+        [TaskType.DESERTO]: { desertDone: false },
+        [TaskType.ESPOLIOS]: { spoilsDone: false },
+        [TaskType.TORRES]: { towersDone: false },
+        [TaskType.KEFRA]: { kefraDone: false },
+        [TaskType.CIDADE]: { cityWarDone: false },
+        [TaskType.CACA]: { cacaBossDone: false, cacaDeliveryDone: false },
+      }
+      const data = fieldMap[task]
+      if (!data) throw new BadRequestException('Task inválida')
+      return this.dailyRepo.upsert(characterId, today, data)
+    }
+
+    if (task === TaskType.CACA) {
+      if (action === 'boss') return this.dailyRepo.upsert(characterId, today, { cacaBossDone: true })
+      if (action === 'delivery') return this.dailyRepo.upsert(characterId, today, { cacaDeliveryDone: true })
+      throw new BadRequestException('Ação inválida para CACA: use boss ou delivery')
+    }
 
     if (task === TaskType.INFERNAL) {
       const current = log?.infernalCount ?? 0
