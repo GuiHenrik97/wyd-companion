@@ -9,4 +9,4 @@ RUN npx prisma generate
 RUN npm run build && echo "BUILD OK" && ls -la dist/
 
 EXPOSE 3001
-CMD ["node", "dist/main.js"]
+CMD ["node", "dist/src/main.js"]
