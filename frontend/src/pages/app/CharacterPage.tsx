@@ -85,9 +85,9 @@ export function CharacterPage() {
           onDaySaved={refreshTasks}
         />
       )}
-      {activeTab === 'Selo' && <SealTab character={character} characterId={id!} />}
-      {activeTab === 'Conta' && <AccountTab character={character} characterId={id!} />}
-      {activeTab === 'Itens' && <ItemsTab character={character} characterId={id!} />}
+      {activeTab === 'Selo' && <SealTab character={character} />}
+      {activeTab === 'Conta' && <AccountTab character={character} />}
+      {activeTab === 'Itens' && <ItemsTab character={character} />}
     </main>
   )
 }
