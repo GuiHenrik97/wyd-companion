@@ -10,8 +10,13 @@ import { DailyChecklist } from '../../components/daily/DailyChecklist'
 const TABS = ['Daily', 'Selo', 'Conta', 'Itens'] as const
 type Tab = typeof TABS[number]
 
-const clickSound = new Audio('/sfx-click.wav')
-clickSound.volume = 0.3
+const playClick = () => {
+  const muted = localStorage.getItem('wyd-muted') === 'true'
+  if (muted) return
+  const clickSound = new Audio('/sfx-click.wav')
+  clickSound.volume = 0.3
+  clickSound.play().catch(() => {})
+}
 
 export function CharacterPage() {
   const { id } = useParams<{ id: string }>()
@@ -67,8 +72,7 @@ export function CharacterPage() {
           <button
             key={tab}
             onClick={() => {
-              clickSound.currentTime = 0
-              clickSound.play().catch(() => {})
+              playClick()
               setActiveTab(tab)
             }}
             className={`px-5 py-2 rounded-md text-sm font-medium transition-all ${
