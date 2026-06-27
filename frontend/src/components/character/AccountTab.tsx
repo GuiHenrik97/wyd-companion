@@ -1,4 +1,4 @@
-export function AccountTab({ character, characterId }: { character: any; characterId: string }) {
+export function AccountTab({ character }: { character: any }) {
   return (
     <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
       <h2 className="text-white font-medium mb-4">Aba Conta</h2>

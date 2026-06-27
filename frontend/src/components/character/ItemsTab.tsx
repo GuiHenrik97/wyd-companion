@@ -1,4 +1,4 @@
-export function ItemsTab({ character, characterId }: { character: any; characterId: string }) {
+export function ItemsTab({ character }: { character: any }) {
   return (
     <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
       <h2 className="text-white font-medium mb-4">Aba Itens</h2>
