@@ -17,10 +17,20 @@ const CATEGORY_FILTERS: Record<string, string[]> = {
   MOUNT: ['MONTARIA', 'JACKAL'],
 }
 
-const FILTER_ORDER: Record<string, number> = {
-  MORTAL: 1, ARCH: 2, CELESTIAL: 3, RD: 4, BAHAMUT: 5,
-  MISTICA: 1, ARCANA: 2, AMUNRA: 3, ANUBIS: 5, ANCIENT: 6,
-  MONTARIA: 1, JACKAL: 2,
+const TIER_ORDER: Record<string, number> = {
+  MORTAL: 1,
+  ARCH: 2,
+  CELESTIAL: 3,
+  RD: 4,
+  BAHAMUT: 5,
+  ANCIENT: 6,
+  MISTICA: 1,
+  ARCANA: 2,
+  AMUNRA: 3,
+  ANUBIS: 5,
+  MONTARIA: 1,
+  JACKAL: 2,
+  OTHER: 99,
 }
 
 function getProcessTier(name: string): string {
@@ -28,42 +38,35 @@ function getProcessTier(name: string): string {
     .normalize('NFD')
     .replace(/[̀-ͯ]/g, '')
 
-  // Criações — detecta pelo resultado (após a seta →)
-  if (n.includes('CRIACAO ARMADURA BAHAMUT') || n.includes('CRIACAO ITEM BAHAMUT')) return 'BAHAMUT'
+  // Criações — detecta pelo resultado
   if (n.includes('CRIACAO ARMADURA BAHAMUT') || (n.includes('RD') && n.includes('BAHAMUT'))) return 'BAHAMUT'
   if (n.includes('CRIACAO ITEM RD') || (n.includes('CELESTIAL') && n.includes('RD +9'))) return 'RD'
-  if (n.includes('CRIACAO ITEM CELESTIAL') || (n.includes('ARCH') && n.includes('CELESTIAL'))) return 'CELESTIAL'
-  if (n.includes('CRIACAO ITEM ARCH') || (n.includes('MORTAL') && n.includes('ARCH'))) return 'ARCH'
+  if (n.includes('CRIACAO ITEM CELESTIAL') || n.includes('CRIACAO ARMA CELESTIAL')) return 'CELESTIAL'
 
-  // Refinações e composições — detecta pelo tipo principal
+  // ANCIENT antes de BAHAMUT
   if (n.includes('ANCIENT')) return 'ANCIENT'
+
   if (n.includes('BAHAMUT')) return 'BAHAMUT'
   if (n.includes(' RD') || n.includes('RD ') || n.includes('/ARMA RD')) return 'RD'
   if (n.includes('CELESTIAL')) return 'CELESTIAL'
-  if (n.includes(' ARCH') || n.includes('ARCH ')) return 'ARCH'
+  if (n.includes(' ARCH') || n.includes('ARCH ') || n.includes('ARMADURA ARCH') || n.includes('ARMA ARCH')) return 'ARCH'
   if (n.includes('MORTAL')) return 'MORTAL'
-
-  // Cythera
   if (n.includes('ANUBIS')) return 'ANUBIS'
   if (n.includes('ARCANA')) return 'ARCANA'
   if (n.includes('AMUNRA')) return 'AMUNRA'
   if (n.includes('MISTICA') || n.includes('MYSTICA')) return 'MISTICA'
-
-  // Acessórios
-  if (n.includes('ANCIENT')) return 'ANCIENT'
-
-  // Montaria
   if (n.includes('JACKAL')) return 'JACKAL'
   if (n.includes('MONTARIA') || n.includes('NIVEL') || n.includes('QUALIDADE')) return 'MONTARIA'
-
   return 'OTHER'
 }
 
 function getProcessOrder(process: any): number {
   const tier = getProcessTier(process.name)
-  const tierOrder = FILTER_ORDER[tier] ?? 99
-  const isCreation = process.name.toLowerCase().includes('criação')
-  return tierOrder * 100 + (isCreation ? 0 : 1) * 10 + (process.fromLevel ?? 0)
+  const tierOrder = TIER_ORDER[tier] ?? 99
+  const n = process.name.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
+  const isCreation = n.includes('criacao') || n.includes('composicao')
+  const level = process.fromLevel ?? 0
+  return tierOrder * 10000 + (isCreation ? 0 : 1000) + level
 }
 
 function ProcessCard({ process }: { process: any }) {
