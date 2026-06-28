@@ -36,6 +36,7 @@ function getProcessTier(name: string): string {
   if (n.includes('CRIACAO ITEM ARCH') || (n.includes('MORTAL') && n.includes('ARCH'))) return 'ARCH'
 
   // Refinações e composições — detecta pelo tipo principal
+  if (n.includes('ANCIENT')) return 'ANCIENT'
   if (n.includes('BAHAMUT')) return 'BAHAMUT'
   if (n.includes(' RD') || n.includes('RD ') || n.includes('/ARMA RD')) return 'RD'
   if (n.includes('CELESTIAL')) return 'CELESTIAL'

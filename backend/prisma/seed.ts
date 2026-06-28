@@ -98,6 +98,9 @@ async function main() {
     prisma.resource.upsert({ where: { slug: 'eye-of-wisdom' }, update: {}, create: { name: 'Eye of Wisdom', slug: 'eye-of-wisdom', category: 'OTHER', mobile: false, obtainHint: 'Quest Ruínas Profanadas (em breve)' } }),
     prisma.resource.upsert({ where: { slug: 'essence-0' }, update: {}, create: { name: 'Essência +0', slug: 'essence-0', category: 'OTHER', mobile: true, obtainHint: 'Dragon Field — 2º andar' } }),
     prisma.resource.upsert({ where: { slug: 'essence-9' }, update: {}, create: { name: 'Essência +9', slug: 'essence-9', category: 'OTHER', mobile: true, obtainHint: 'Refinação de Essência +0' } }),
+    prisma.resource.upsert({ where: { slug: 'refin-abencoa' }, update: {}, create: { name: 'Refinação Abençoada', slug: 'refin-abencoa', category: 'OTHER', mobile: true, obtainHint: 'NPC Refinador — refinações +1 a +9 de qualquer item' } }),
+    prisma.resource.upsert({ where: { slug: 'mark-bahamut' }, update: {}, create: { name: 'Mark of Bahamut', slug: 'mark-bahamut', category: 'BAHAMUT', mobile: true, obtainHint: 'Dragon Field, eventos' } }),
+    prisma.resource.upsert({ where: { slug: 'celestial-part' }, update: {}, create: { name: 'Parte Celestial +9 (equivalente)', slug: 'celestial-part', category: 'OTHER', mobile: false, obtainHint: 'Criação de item Celestial' } }),
   ])
 
   console.log(`Created ${resources.length} resources`)
@@ -130,13 +133,12 @@ async function main() {
       ]
     },
     {
-      name: 'Composição Armadura Mortal +9→+10',
+      name: 'Refinação Armadura Mortal +9→+10',
       category: 'ARMOR',
       fromLevel: 9, toLevel: 10,
       notes: 'Consome 2 itens +9 iguais em caso de sucesso.',
       resources: [
         { slug: 'pl', quantity: 30, isConsumedOnFail: true },
-        { slug: 'joia-escuridao', quantity: 1, isConsumedOnFail: true },
         { slug: 'gold', quantity: 5, isConsumedOnFail: true },
       ]
     },
@@ -153,8 +155,9 @@ async function main() {
       name: 'Refinação Armadura Mortal +11→+14',
       category: 'ARMOR',
       fromLevel: 11, toLevel: 14,
-      notes: '4 refinações abençoadas + 20 PL + 1kk gold por tentativa.',
+      notes: '4x Refinação Abençoada (+1 a +9, quanto maior a refinação maior a chance de sucesso) + 20x PL + 1kk Gold',
       resources: [
+        { slug: 'refin-abencoa', quantity: 4, isConsumedOnFail: true },
         { slug: 'pl', quantity: 20, isConsumedOnFail: true },
         { slug: 'gold', quantity: 1, isConsumedOnFail: true },
       ]
@@ -163,8 +166,10 @@ async function main() {
       name: 'Refinação Armadura Mortal +14→+15',
       category: 'ARMOR',
       fromLevel: 14, toLevel: 15,
-      notes: 'Usa 2 proteções no lugar de 20 PL para evitar cair para +13 em falha.',
+      notes: '4x Refinação Abençoada + 20x PL + 1kk Gold. Usa 2 proteções no lugar de 20 PL para evitar cair para +13 em falha.',
       resources: [
+        { slug: 'refin-abencoa', quantity: 4, isConsumedOnFail: true },
+        { slug: 'pl', quantity: 20, isConsumedOnFail: true },
         { slug: 'gold', quantity: 1, isConsumedOnFail: true },
       ]
     },
@@ -188,13 +193,12 @@ async function main() {
       ]
     },
     {
-      name: 'Composição Armadura Arch +9→+10',
+      name: 'Refinação Armadura Arch +9→+10',
       category: 'ARMOR',
       fromLevel: 9, toLevel: 10,
       notes: 'Consome 2 itens +9 iguais em caso de sucesso.',
       resources: [
         { slug: 'pl', quantity: 30, isConsumedOnFail: true },
-        { slug: 'joia-escuridao', quantity: 1, isConsumedOnFail: true },
         { slug: 'gold', quantity: 5, isConsumedOnFail: true },
       ]
     },
@@ -211,8 +215,9 @@ async function main() {
       name: 'Refinação Armadura Arch +11→+14',
       category: 'ARMOR',
       fromLevel: 11, toLevel: 14,
-      notes: '4 refinações abençoadas + 20 PL + 1kk gold por tentativa.',
+      notes: '4x Refinação Abençoada (+1 a +9, quanto maior a refinação maior a chance de sucesso) + 20x PL + 1kk Gold',
       resources: [
+        { slug: 'refin-abencoa', quantity: 4, isConsumedOnFail: true },
         { slug: 'pl', quantity: 20, isConsumedOnFail: true },
         { slug: 'gold', quantity: 1, isConsumedOnFail: true },
       ]
@@ -221,8 +226,10 @@ async function main() {
       name: 'Refinação Armadura Arch +14→+15',
       category: 'ARMOR',
       fromLevel: 14, toLevel: 15,
-      notes: 'Usa 2 proteções no lugar de 20 PL para evitar cair para +13 em falha.',
+      notes: '4x Refinação Abençoada + 20x PL + 1kk Gold. Usa 2 proteções no lugar de 20 PL para evitar cair para +13 em falha.',
       resources: [
+        { slug: 'refin-abencoa', quantity: 4, isConsumedOnFail: true },
+        { slug: 'pl', quantity: 20, isConsumedOnFail: true },
         { slug: 'gold', quantity: 1, isConsumedOnFail: true },
       ]
     },
@@ -301,9 +308,9 @@ async function main() {
     {
       name: 'Criação Item RD (Celestial +15 → RD +9)',
       category: 'ARMOR',
-      notes: 'Em falha item Celestial +15 é preservado. Requer Ignite Buff.',
+      notes: 'Sucesso: todos os itens consumidos e RD +9 criado. Falha: todos consumidos exceto Celestial +15.',
       resources: [
-        { slug: 'bahamut-horn', quantity: 1, isConsumedOnFail: true },
+        { slug: 'mark-bahamut', quantity: 1, isConsumedOnFail: true },
         { slug: 'rd-scale', quantity: 10, isConsumedOnFail: true },
         { slug: 'dragon-soul', quantity: 1, isConsumedOnFail: true },
         { slug: 'kit-secretas', quantity: 1, isConsumedOnFail: true },
@@ -314,10 +321,23 @@ async function main() {
     {
       name: 'Criação Item Celestial Set (Arch +15 → Celestial +9)',
       category: 'ARMOR',
-      notes: 'Adicional do Arch é transferido para o Celestial.',
+      successRate: 0.20,
+      notes: '20% de sucesso. Em falha todos os itens são destruídos exceto o Arch +15. Em sucesso a parte que recebeu adicional retorna para +9.',
       resources: [
         { slug: 'pedra-lunar', quantity: 1, isConsumedOnFail: true },
         { slug: 'kit-secretas', quantity: 1, isConsumedOnFail: true },
+        { slug: 'celestial-part', quantity: 1, isConsumedOnFail: true },
+      ]
+    },
+    {
+      name: 'Criação Arma Celestial (Arch +15 → Celestial +9)',
+      category: 'ARMOR',
+      successRate: 0.20,
+      notes: '20% de sucesso. Em falha todos os itens são destruídos exceto a Arma Arch +15. Requer Arma Celestial +9 equivalente.',
+      resources: [
+        { slug: 'joia-escuridao', quantity: 1, isConsumedOnFail: true },
+        { slug: 'kit-secretas', quantity: 1, isConsumedOnFail: true },
+        { slug: 'celestial-part', quantity: 1, isConsumedOnFail: true },
       ]
     },
     // === ARMADURA BAHAMUT ===
@@ -428,6 +448,18 @@ async function main() {
       ]
     },
     // === CYTHERA ANUBIS ===
+    {
+      name: 'Criação Cythera Anúbis (de Bahamut +14)',
+      category: 'CYTHERA',
+      successRate: 0.30,
+      notes: 'NPC Anubis, Noatun.',
+      resources: [
+        { slug: 'cursed-hat-black', quantity: 3, isConsumedOnFail: true },
+        { slug: 'crystal-amunra', quantity: 200, isConsumedOnFail: true },
+        { slug: 'crystal-bahamut', quantity: 200, isConsumedOnFail: true },
+        { slug: 'medalha-vermelha', quantity: 2, isConsumedOnFail: true },
+      ]
+    },
     {
       name: 'Criação Cythera Anúbis (de Bahamut +13)',
       category: 'CYTHERA',
@@ -592,6 +624,60 @@ async function main() {
         { slug: 'gold', quantity: 50, isConsumedOnFail: true },
       ]
     },
+    {
+      name: 'Inserção Adicional Acessório Bahamut (Lágrima Vermelha)',
+      category: 'ACCESSORY',
+      notes: 'NPC Torvald, Arzan. Insere adicional em acessório Bahamut.',
+      resources: [
+        { slug: 'lagrima-vermelha', quantity: 3, isConsumedOnFail: true },
+      ]
+    },
+    {
+      name: 'Upgrade Tier Acessório Bahamut T0→T1 (Lágrima Vermelha)',
+      category: 'ACCESSORY',
+      resources: [{ slug: 'lagrima-vermelha', quantity: 8, isConsumedOnFail: true }]
+    },
+    {
+      name: 'Upgrade Tier Acessório Bahamut T1→T2 (Lágrima Vermelha)',
+      category: 'ACCESSORY',
+      resources: [{ slug: 'lagrima-vermelha', quantity: 8, isConsumedOnFail: true }]
+    },
+    {
+      name: 'Upgrade Tier Acessório Bahamut T2→T3 (Lágrima Vermelha)',
+      category: 'ACCESSORY',
+      resources: [{ slug: 'lagrima-vermelha', quantity: 25, isConsumedOnFail: true }]
+    },
+    {
+      name: 'Upgrade Tier Acessório Bahamut T3→T4 (Lágrima Vermelha)',
+      category: 'ACCESSORY',
+      resources: [{ slug: 'lagrima-vermelha', quantity: 40, isConsumedOnFail: true }]
+    },
+    {
+      name: 'Upgrade Tier Acessório Bahamut T4→T5 (Lágrima Vermelha)',
+      category: 'ACCESSORY',
+      resources: [{ slug: 'lagrima-vermelha', quantity: 80, isConsumedOnFail: true }]
+    },
+    {
+      name: 'Upgrade Tier Acessório Bahamut T5→T6 (Lágrima Vermelha)',
+      category: 'ACCESSORY',
+      notes: '125x Lágrima Vermelha OU 2x Bahamut Essence.',
+      resources: [
+        { slug: 'lagrima-vermelha', quantity: 125, isConsumedOnFail: true },
+      ]
+    },
+    {
+      name: 'Upgrade Tier Acessório Bahamut T6→T7 (Lágrima Vermelha)',
+      category: 'ACCESSORY',
+      notes: '225x Lágrima Vermelha OU 3x Bahamut Essence.',
+      resources: [
+        { slug: 'lagrima-vermelha', quantity: 225, isConsumedOnFail: true },
+      ]
+    },
+    {
+      name: 'Upgrade Tier Acessório Bahamut T7→T8 (Bahamut Essence)',
+      category: 'ACCESSORY',
+      resources: [{ slug: 'bahamut-essence', quantity: 5, isConsumedOnFail: true }]
+    },
     // === CAPA ===
     {
       name: 'Refinação Capa Celestial +0→+9',
@@ -646,7 +732,7 @@ async function main() {
     },
     // === MONTARIA ===
     {
-      name: 'Upgrade Nível Montaria +0→+179',
+      name: 'Upgrade Nível Montaria 0→180',
       category: 'MOUNT',
       notes: 'Âmago varia por tipo de montaria. Falha em nível par pode perder 1 nível.',
       resources: [
@@ -654,7 +740,7 @@ async function main() {
       ]
     },
     {
-      name: 'Upgrade Nível Montaria +180→+200',
+      name: 'Upgrade Nível Montaria 181→200',
       category: 'MOUNT',
       successRate: 1.0,
       notes: 'Âmago +10 garante 100% de sucesso.',
@@ -684,7 +770,7 @@ async function main() {
       ]
     },
     {
-      name: 'Upgrade Nível Jackal +0→+180',
+      name: 'Upgrade Nível Jackal 0→180',
       category: 'MOUNT',
       successRate: 0.10,
       notes: 'NPC MountKeeper, Erion.',
@@ -693,7 +779,7 @@ async function main() {
       ]
     },
     {
-      name: 'Upgrade Nível Jackal +181→+200',
+      name: 'Upgrade Nível Jackal 181→200',
       category: 'MOUNT',
       successRate: 1.0,
       notes: 'Âmago de Jackal +10 garante 100%.',
