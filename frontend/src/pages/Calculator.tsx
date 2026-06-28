@@ -33,36 +33,33 @@ const TIER_ORDER: Record<string, number> = {
   OTHER: 99,
 }
 
-function getProcessTier(name: string): string {
+function getProcessTiers(name: string): string[] {
   const n = name.toUpperCase()
     .normalize('NFD')
     .replace(/[̀-ͯ]/g, '')
 
-  // Criações — detecta pelo resultado
-  if (n.includes('CRIACAO ARMADURA BAHAMUT') || (n.includes('RD') && n.includes('BAHAMUT'))) return 'BAHAMUT'
-  if (n.includes('CRIACAO ITEM RD') || (n.includes('CELESTIAL') && n.includes('RD +9'))) return 'RD'
-  if (n.includes('CRIACAO ITEM CELESTIAL') || n.includes('CRIACAO ARMA CELESTIAL')) return 'CELESTIAL'
-
-  // ANCIENT antes de BAHAMUT
-  if (n.includes('ANCIENT')) return 'ANCIENT'
-
-  if (n.includes('BAHAMUT')) return 'BAHAMUT'
-  if (n.includes(' RD') || n.includes('RD ') || n.includes('/ARMA RD')) return 'RD'
-  if (n.includes('CELESTIAL')) return 'CELESTIAL'
-  if (n.includes(' ARCH') || n.includes('ARCH ') || n.includes('ARMADURA ARCH') || n.includes('ARMA ARCH')) return 'ARCH'
-  if (n.includes('MORTAL')) return 'MORTAL'
-  if (n.includes('ANUBIS')) return 'ANUBIS'
-  if (n.includes('ARCANA')) return 'ARCANA'
-  if (n.includes('AMUNRA')) return 'AMUNRA'
-  if (n.includes('MISTICA') || n.includes('MYSTICA')) return 'MISTICA'
-  if (n.includes('JACKAL')) return 'JACKAL'
-  if (n.includes('MONTARIA') || n.includes('NIVEL') || n.includes('QUALIDADE')) return 'MONTARIA'
-  return 'OTHER'
+  if (n.includes('MORTAL') && n.includes('ARCH')) return ['MORTAL', 'ARCH']
+  if (n.includes('CRIACAO ARMADURA BAHAMUT') || (n.includes('RD') && n.includes('BAHAMUT'))) return ['BAHAMUT']
+  if (n.includes('CRIACAO ITEM RD') || (n.includes('CELESTIAL') && n.includes('RD +9'))) return ['RD']
+  if (n.includes('CRIACAO ITEM CELESTIAL') || n.includes('CRIACAO ARMA CELESTIAL')) return ['CELESTIAL']
+  if (n.includes('ANCIENT')) return ['ANCIENT']
+  if (n.includes('BAHAMUT')) return ['BAHAMUT']
+  if (n.includes(' RD') || n.includes('RD ') || n.includes('/ARMA RD')) return ['RD']
+  if (n.includes('CELESTIAL')) return ['CELESTIAL']
+  if (n.includes(' ARCH') || n.includes('ARCH ') || n.includes('ARMADURA ARCH') || n.includes('ARMA ARCH')) return ['ARCH']
+  if (n.includes('MORTAL')) return ['MORTAL']
+  if (n.includes('ANUBIS')) return ['ANUBIS']
+  if (n.includes('ARCANA')) return ['ARCANA']
+  if (n.includes('AMUNRA')) return ['AMUNRA']
+  if (n.includes('MISTICA') || n.includes('MYSTICA')) return ['MISTICA']
+  if (n.includes('JACKAL')) return ['JACKAL']
+  if (n.includes('MONTARIA') || n.includes('NIVEL') || n.includes('QUALIDADE')) return ['MONTARIA']
+  return ['OTHER']
 }
 
 function getProcessOrder(process: any): number {
-  const tier = getProcessTier(process.name)
-  const tierOrder = TIER_ORDER[tier] ?? 99
+  const tiers = getProcessTiers(process.name)
+  const tierOrder = Math.min(...tiers.map(t => TIER_ORDER[t] ?? 99))
   const n = process.name.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
   const isCreation = n.includes('criacao') || n.includes('composicao')
   const level = process.fromLevel ?? 0
@@ -188,8 +185,8 @@ export function Calculator() {
         )
       if (!nameMatch) return false
       if (activeFilters.length === 0) return true
-      const tier = getProcessTier(p.name)
-      return activeFilters.includes(tier)
+      const tiers = getProcessTiers(p.name)
+      return activeFilters.some(f => tiers.includes(f))
     })
     .sort((a, b) => getProcessOrder(a) - getProcessOrder(b))
 

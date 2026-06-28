@@ -337,7 +337,6 @@ async function main() {
       resources: [
         { slug: 'joia-escuridao', quantity: 1, isConsumedOnFail: true },
         { slug: 'kit-secretas', quantity: 1, isConsumedOnFail: true },
-        { slug: 'celestial-part', quantity: 1, isConsumedOnFail: true },
       ]
     },
     // === ARMADURA BAHAMUT ===
@@ -627,7 +626,7 @@ async function main() {
     {
       name: 'Inserção Adicional Acessório Bahamut (Lágrima Vermelha)',
       category: 'ACCESSORY',
-      notes: 'NPC Torvald, Arzan. Insere adicional em acessório Bahamut.',
+      notes: 'NPC Torvald, Arzan.',
       resources: [
         { slug: 'lagrima-vermelha', quantity: 3, isConsumedOnFail: true },
       ]
