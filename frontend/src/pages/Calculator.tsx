@@ -27,18 +27,34 @@ function getProcessTier(name: string): string {
   const n = name.toUpperCase()
     .normalize('NFD')
     .replace(/[̀-ͯ]/g, '')
-  if (n.includes('MORTAL')) return 'MORTAL'
-  if (n.includes('ARCH')) return 'ARCH'
-  if (n.includes('CELESTIAL')) return 'CELESTIAL'
-  if (n.includes(' RD') || n.includes('RD ') || n.includes('RED DRAGON')) return 'RD'
+
+  // Criações — detecta pelo resultado (após a seta →)
+  if (n.includes('CRIACAO ARMADURA BAHAMUT') || n.includes('CRIACAO ITEM BAHAMUT')) return 'BAHAMUT'
+  if (n.includes('CRIACAO ARMADURA BAHAMUT') || (n.includes('RD') && n.includes('BAHAMUT'))) return 'BAHAMUT'
+  if (n.includes('CRIACAO ITEM RD') || (n.includes('CELESTIAL') && n.includes('RD +9'))) return 'RD'
+  if (n.includes('CRIACAO ITEM CELESTIAL') || (n.includes('ARCH') && n.includes('CELESTIAL'))) return 'CELESTIAL'
+  if (n.includes('CRIACAO ITEM ARCH') || (n.includes('MORTAL') && n.includes('ARCH'))) return 'ARCH'
+
+  // Refinações e composições — detecta pelo tipo principal
   if (n.includes('BAHAMUT')) return 'BAHAMUT'
-  if (n.includes('MISTICA') || n.includes('MYSTICA')) return 'MISTICA'
+  if (n.includes(' RD') || n.includes('RD ') || n.includes('/ARMA RD')) return 'RD'
+  if (n.includes('CELESTIAL')) return 'CELESTIAL'
+  if (n.includes(' ARCH') || n.includes('ARCH ')) return 'ARCH'
+  if (n.includes('MORTAL')) return 'MORTAL'
+
+  // Cythera
+  if (n.includes('ANUBIS')) return 'ANUBIS'
   if (n.includes('ARCANA')) return 'ARCANA'
   if (n.includes('AMUNRA')) return 'AMUNRA'
-  if (n.includes('ANUBIS')) return 'ANUBIS'
+  if (n.includes('MISTICA') || n.includes('MYSTICA')) return 'MISTICA'
+
+  // Acessórios
   if (n.includes('ANCIENT')) return 'ANCIENT'
+
+  // Montaria
   if (n.includes('JACKAL')) return 'JACKAL'
   if (n.includes('MONTARIA') || n.includes('NIVEL') || n.includes('QUALIDADE')) return 'MONTARIA'
+
   return 'OTHER'
 }
 
@@ -139,6 +155,12 @@ export function Calculator() {
       setProcesses(data)
       setLoading(false)
       console.log('Processes loaded:', data.length, data.map((p: any) => p.category))
+      ;(window as any).__processes = data
+      console.log('Processes by category:', data.reduce((acc: any, p: any) => {
+        acc[p.category] = (acc[p.category] || 0) + 1
+        return acc
+      }, {}))
+      console.log('ARMOR processes:', data.filter((p: any) => p.category === 'ARMOR').map((p: any) => p.name))
     })
   }, [])
 

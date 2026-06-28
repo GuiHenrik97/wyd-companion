@@ -98,7 +98,6 @@ async function main() {
     prisma.resource.upsert({ where: { slug: 'eye-of-wisdom' }, update: {}, create: { name: 'Eye of Wisdom', slug: 'eye-of-wisdom', category: 'OTHER', mobile: false, obtainHint: 'Quest Ruínas Profanadas (em breve)' } }),
     prisma.resource.upsert({ where: { slug: 'essence-0' }, update: {}, create: { name: 'Essência +0', slug: 'essence-0', category: 'OTHER', mobile: true, obtainHint: 'Dragon Field — 2º andar' } }),
     prisma.resource.upsert({ where: { slug: 'essence-9' }, update: {}, create: { name: 'Essência +9', slug: 'essence-9', category: 'OTHER', mobile: true, obtainHint: 'Refinação de Essência +0' } }),
-    prisma.resource.upsert({ where: { slug: 'soul-frag' }, update: {}, create: { name: 'Soul Fragment', slug: 'soul-frag', category: 'OTHER', mobile: true, obtainHint: 'Drop de bosses' } }),
   ])
 
   console.log(`Created ${resources.length} resources`)
@@ -111,19 +110,18 @@ async function main() {
   )
 
   const processes = [
-    // === ARMADURA MORTAL/ARCH ===
+    // === ARMADURA MORTAL ===
     {
-      name: 'Refinação Armadura Mortal/Arch +1→+6',
+      name: 'Refinação Armadura Mortal +1→+6',
       category: 'ARMOR',
       fromLevel: 1, toLevel: 6,
-      notes: 'Usa Poeira de Ori. Sem taxa declarada oficialmente.',
+      notes: 'Usa Poeira de Ori.',
       resources: [
         { slug: 'po-ori', quantity: 1, isConsumedOnFail: true },
-        { slug: 'gold', quantity: 0, isConsumedOnFail: true },
       ]
     },
     {
-      name: 'Refinação Armadura Mortal/Arch +7→+9',
+      name: 'Refinação Armadura Mortal +7→+9',
       category: 'ARMOR',
       fromLevel: 7, toLevel: 9,
       notes: 'Usa Poeira de Lactolerium.',
@@ -132,7 +130,7 @@ async function main() {
       ]
     },
     {
-      name: 'Composição Armadura Mortal/Arch +9→+10',
+      name: 'Composição Armadura Mortal +9→+10',
       category: 'ARMOR',
       fromLevel: 9, toLevel: 10,
       notes: 'Consome 2 itens +9 iguais em caso de sucesso.',
@@ -143,7 +141,7 @@ async function main() {
       ]
     },
     {
-      name: 'Refinação Armadura Mortal/Arch +10→+11',
+      name: 'Refinação Armadura Mortal +10→+11',
       category: 'ARMOR',
       fromLevel: 10, toLevel: 11,
       notes: 'Usa PL ou Lac 100.',
@@ -152,7 +150,7 @@ async function main() {
       ]
     },
     {
-      name: 'Refinação Armadura Mortal/Arch +11→+14',
+      name: 'Refinação Armadura Mortal +11→+14',
       category: 'ARMOR',
       fromLevel: 11, toLevel: 14,
       notes: '4 refinações abençoadas + 20 PL + 1kk gold por tentativa.',
@@ -162,7 +160,65 @@ async function main() {
       ]
     },
     {
-      name: 'Refinação Armadura Mortal/Arch +14→+15',
+      name: 'Refinação Armadura Mortal +14→+15',
+      category: 'ARMOR',
+      fromLevel: 14, toLevel: 15,
+      notes: 'Usa 2 proteções no lugar de 20 PL para evitar cair para +13 em falha.',
+      resources: [
+        { slug: 'gold', quantity: 1, isConsumedOnFail: true },
+      ]
+    },
+    // === ARMADURA ARCH ===
+    {
+      name: 'Refinação Armadura Arch +1→+6',
+      category: 'ARMOR',
+      fromLevel: 1, toLevel: 6,
+      notes: 'Usa Poeira de Ori.',
+      resources: [
+        { slug: 'po-ori', quantity: 1, isConsumedOnFail: true },
+      ]
+    },
+    {
+      name: 'Refinação Armadura Arch +7→+9',
+      category: 'ARMOR',
+      fromLevel: 7, toLevel: 9,
+      notes: 'Usa Poeira de Lactolerium.',
+      resources: [
+        { slug: 'pl', quantity: 1, isConsumedOnFail: true },
+      ]
+    },
+    {
+      name: 'Composição Armadura Arch +9→+10',
+      category: 'ARMOR',
+      fromLevel: 9, toLevel: 10,
+      notes: 'Consome 2 itens +9 iguais em caso de sucesso.',
+      resources: [
+        { slug: 'pl', quantity: 30, isConsumedOnFail: true },
+        { slug: 'joia-escuridao', quantity: 1, isConsumedOnFail: true },
+        { slug: 'gold', quantity: 5, isConsumedOnFail: true },
+      ]
+    },
+    {
+      name: 'Refinação Armadura Arch +10→+11',
+      category: 'ARMOR',
+      fromLevel: 10, toLevel: 11,
+      notes: 'Usa PL ou Lac 100.',
+      resources: [
+        { slug: 'pl', quantity: 1, isConsumedOnFail: true },
+      ]
+    },
+    {
+      name: 'Refinação Armadura Arch +11→+14',
+      category: 'ARMOR',
+      fromLevel: 11, toLevel: 14,
+      notes: '4 refinações abençoadas + 20 PL + 1kk gold por tentativa.',
+      resources: [
+        { slug: 'pl', quantity: 20, isConsumedOnFail: true },
+        { slug: 'gold', quantity: 1, isConsumedOnFail: true },
+      ]
+    },
+    {
+      name: 'Refinação Armadura Arch +14→+15',
       category: 'ARMOR',
       fromLevel: 14, toLevel: 15,
       notes: 'Usa 2 proteções no lugar de 20 PL para evitar cair para +13 em falha.',
@@ -187,7 +243,7 @@ async function main() {
       notes: 'NPC Odin. Essências +0.',
       resources: [
         { slug: 'essence-0', quantity: 4, isConsumedOnFail: true },
-        { slug: 'soul-frag', quantity: 10, isConsumedOnFail: true },
+        { slug: 'soul-fragment', quantity: 10, isConsumedOnFail: true },
         { slug: 'emblema-valk', quantity: 1, isConsumedOnFail: true },
         { slug: 'gold', quantity: 75, isConsumedOnFail: true },
       ]
@@ -199,7 +255,7 @@ async function main() {
       notes: 'NPC Odin. Essências +0.',
       resources: [
         { slug: 'essence-0', quantity: 4, isConsumedOnFail: true },
-        { slug: 'soul-frag', quantity: 10, isConsumedOnFail: true },
+        { slug: 'soul-fragment', quantity: 10, isConsumedOnFail: true },
         { slug: 'emblema-valk', quantity: 1, isConsumedOnFail: true },
         { slug: 'gold', quantity: 100, isConsumedOnFail: true },
       ]
@@ -211,7 +267,7 @@ async function main() {
       notes: 'NPC Odin. Essências +9.',
       resources: [
         { slug: 'essence-9', quantity: 4, isConsumedOnFail: true },
-        { slug: 'soul-frag', quantity: 10, isConsumedOnFail: true },
+        { slug: 'soul-fragment', quantity: 10, isConsumedOnFail: true },
         { slug: 'emblema-valk', quantity: 1, isConsumedOnFail: true },
         { slug: 'gold', quantity: 150, isConsumedOnFail: true },
       ]
@@ -223,7 +279,7 @@ async function main() {
       notes: 'NPC Odin. Essências +9.',
       resources: [
         { slug: 'essence-9', quantity: 4, isConsumedOnFail: true },
-        { slug: 'soul-frag', quantity: 10, isConsumedOnFail: true },
+        { slug: 'soul-fragment', quantity: 10, isConsumedOnFail: true },
         { slug: 'emblema-valk', quantity: 1, isConsumedOnFail: true },
         { slug: 'gold', quantity: 200, isConsumedOnFail: true },
       ]
