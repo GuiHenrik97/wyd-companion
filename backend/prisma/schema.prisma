@@ -25,6 +25,7 @@ model Character {
   nick         String
   guild        String?
   hasGuild     Boolean       @default(false)
+  mantleColor  String?       @default("BLUE")
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
   seal         Seal?

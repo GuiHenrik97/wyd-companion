@@ -5,20 +5,34 @@ import { calculatorApi } from '../../api/calculator.api'
 import { Button } from '../../components/ui/Button'
 import { Input } from '../../components/ui/Input'
 
-function CharacterCard({ char, onClick }: { char: any; onClick: () => void }) {
+const MANTLE_COLORS: Record<string, { bg: string; border: string; label: string }> = {
+  BLUE:  { bg: 'from-blue-900/30 to-transparent',  border: 'border-blue-500/30',  label: 'Azul' },
+  WHITE: { bg: 'from-zinc-400/20 to-transparent',  border: 'border-zinc-300/30',  label: 'Branca' },
+  RED:   { bg: 'from-red-900/30 to-transparent',   border: 'border-red-500/30',   label: 'Vermelha' },
+}
+
+function CharacterCard({ char, onClick, onEdit }: { char: any; onClick: () => void; onEdit: () => void }) {
   const seal = char.seal ?? {}
   const gear = char.accountGear ?? {}
   const items = char.itemSet ?? {}
+  const color = char.mantleColor ? MANTLE_COLORS[char.mantleColor] : null
 
   const class1 = seal.class1Lineage || seal.class1Type || '—'
   const class2 = seal.class2Lineage || seal.class2Type
 
   return (
     <div
+      className={`${color ? `bg-linear-to-b ${color.bg} border ${color.border}` : 'bg-zinc-900 border-zinc-800'} hover:brightness-110 rounded-2xl p-6 cursor-pointer transition-all group relative`}
       onClick={onClick}
-      className="bg-zinc-900 border border-zinc-800 hover:border-amber-500/50 rounded-2xl p-6 cursor-pointer transition-all group"
     >
-      <div className="flex items-start justify-between mb-4">
+      <button
+        onClick={e => { e.stopPropagation(); onEdit() }}
+        className="absolute top-4 right-4 text-zinc-600 hover:text-zinc-300 text-xs px-2 py-1 rounded-lg hover:bg-zinc-800 transition-all"
+      >
+        ✎ Editar
+      </button>
+
+      <div className="flex items-start justify-between mb-4 pr-16">
         <div>
           <h3 className="text-white font-medium text-xl group-hover:text-amber-500 transition-colors">
             {char.nick}
@@ -28,13 +42,13 @@ function CharacterCard({ char, onClick }: { char: any; onClick: () => void }) {
           </p>
         </div>
         {char.hasGuild && (
-          <span className="text-xs text-zinc-400 bg-zinc-800 px-3 py-1 rounded-full border border-zinc-700">
+          <span className="text-xs text-zinc-400 bg-zinc-800 px-3 py-1 rounded-full border border-zinc-700 shrink-0">
             {char.guild || 'Guild'}
           </span>
         )}
       </div>
 
-      <div className="grid grid-cols-3 gap-3 mt-4">
+      <div className="grid grid-cols-3 gap-3">
         <div className="bg-zinc-800/50 rounded-xl p-3">
           <p className="text-zinc-500 text-xs mb-2 uppercase tracking-wide">Selo</p>
           <div className="flex flex-col gap-1">
@@ -69,9 +83,7 @@ function CharacterCard({ char, onClick }: { char: any; onClick: () => void }) {
           <p className="text-zinc-500 text-xs mb-2 uppercase tracking-wide">Conta</p>
           <div className="flex flex-col gap-1">
             {gear.cytheraType && (
-              <p className="text-zinc-300 text-xs">
-                Cythera: {gear.cytheraType} +{gear.cytheraRefinement ?? 0}
-              </p>
+              <p className="text-zinc-300 text-xs">Cythera: {gear.cytheraType} +{gear.cytheraRefinement ?? 0}</p>
             )}
             <p className="text-zinc-400 text-xs">
               Amuletos: T{gear.amulet1AdditionalTier ?? 0}/T{gear.necklaceAdditionalTier ?? 0}/T{gear.beltAdditionalTier ?? 0}
@@ -86,9 +98,7 @@ function CharacterCard({ char, onClick }: { char: any; onClick: () => void }) {
           <p className="text-zinc-500 text-xs mb-2 uppercase tracking-wide">Itens</p>
           <div className="flex flex-col gap-1">
             {items.weaponType && (
-              <p className="text-zinc-300 text-xs">
-                Arma: {items.weaponType} +{items.weaponRefinement ?? 0}
-              </p>
+              <p className="text-zinc-300 text-xs">Arma: {items.weaponType} +{items.weaponRefinement ?? 0}</p>
             )}
             {(() => {
               const armorSlots = ['chest', 'pants', 'gloves', 'boots']
@@ -98,9 +108,7 @@ function CharacterCard({ char, onClick }: { char: any; onClick: () => void }) {
               return <p className="text-zinc-400 text-xs">Set: +{avg}</p>
             })()}
             {items.mountType && (
-              <p className="text-zinc-400 text-xs">
-                {items.mountType.replace(/_/g, ' ')} {items.mountLevel ?? 0} Ql {items.mountQuality ?? 0}
-              </p>
+              <p className="text-zinc-400 text-xs">{items.mountType.replace(/_/g, ' ')} {items.mountLevel ?? 0} Ql {items.mountQuality ?? 0}</p>
             )}
             {!items.weaponType && !items.chestType && (
               <p className="text-zinc-600 text-xs">Não configurado</p>
@@ -123,6 +131,10 @@ export function Dashboard() {
   const [nick, setNick] = useState('')
   const [guild, setGuild] = useState('')
   const [hasGuild, setHasGuild] = useState(false)
+  const [mantleColor, setMantleColor] = useState<string | null>(null)
+  const [editingId, setEditingId] = useState<string | null>(null)
+  const [editForm, setEditForm] = useState({ nick: '', guild: '', hasGuild: false, mantleColor: 'BLUE' })
+  const [editSaving, setEditSaving] = useState(false)
 
   useEffect(() => {
     Promise.all([
@@ -140,14 +152,25 @@ export function Dashboard() {
     e.preventDefault()
     setCreating(true)
     try {
-      const { data } = await characterApi.create({ nick, guild: guild || undefined, hasGuild })
+      const { data } = await characterApi.create({ nick, guild: guild || undefined, hasGuild, mantleColor: mantleColor || undefined })
       setCharacters(prev => [...prev, data])
       setShowForm(false)
       setNick('')
       setGuild('')
+      setMantleColor(null)
     } finally {
       setCreating(false)
     }
+  }
+
+  const handleEdit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!editingId) return
+    setEditSaving(true)
+    const { data } = await characterApi.update(editingId, editForm)
+    setCharacters(prev => prev.map(c => c.id === editingId ? data : c))
+    setEditingId(null)
+    setEditSaving(false)
   }
 
   return (
@@ -169,6 +192,51 @@ export function Dashboard() {
             <input type="checkbox" checked={hasGuild} onChange={e => setHasGuild(e.target.checked)} className="accent-amber-500" />
             Tem guild ativa
           </label>
+          <div className="flex flex-col gap-2">
+            <label className="text-sm text-zinc-400">Cor da capa (opcional)</label>
+            <div className="flex gap-3">
+              <button
+                type="button"
+                onClick={() => setMantleColor(mantleColor === 'BLUE' ? null : 'BLUE')}
+                className={`flex-1 py-2 rounded-lg border text-sm transition-all ${
+                  mantleColor === 'BLUE'
+                    ? 'border-blue-500/60 text-white bg-zinc-800'
+                    : 'border-zinc-700 text-zinc-500 hover:border-zinc-500'
+                }`}
+              >
+                Azul
+              </button>
+              <button
+                type="button"
+                onClick={() => setMantleColor(mantleColor === 'WHITE' ? null : 'WHITE')}
+                className={`flex-1 py-2 rounded-lg border text-sm transition-all ${
+                  mantleColor === 'WHITE'
+                    ? 'border-zinc-300/60 text-white bg-zinc-800'
+                    : 'border-zinc-700 text-zinc-500 hover:border-zinc-500'
+                }`}
+              >
+                Branca
+              </button>
+              <button
+                type="button"
+                onClick={() => setMantleColor(mantleColor === 'RED' ? null : 'RED')}
+                className={`flex-1 py-2 rounded-lg border text-sm transition-all ${
+                  mantleColor === 'RED'
+                    ? 'border-red-500/60 text-white bg-zinc-800'
+                    : 'border-zinc-700 text-zinc-500 hover:border-zinc-500'
+                }`}
+              >
+                Vermelha
+              </button>
+            </div>
+            {mantleColor && (
+              <div className={`h-1.5 rounded-full bg-linear-to-r ${
+                mantleColor === 'BLUE' ? 'from-blue-600 to-blue-400' :
+                mantleColor === 'WHITE' ? 'from-zinc-400 to-zinc-200' :
+                'from-red-600 to-red-400'
+              }`} />
+            )}
+          </div>
           <div className="flex gap-3">
             <Button type="submit" loading={creating}>Criar</Button>
             <Button type="button" variant="ghost" onClick={() => setShowForm(false)}>Cancelar</Button>
@@ -190,8 +258,101 @@ export function Dashboard() {
               key={char.id}
               char={char}
               onClick={() => navigate(`/app/personagens/${char.id}`)}
+              onEdit={() => {
+                setEditForm({
+                  nick: char.nick,
+                  guild: char.guild ?? '',
+                  hasGuild: char.hasGuild,
+                  mantleColor: char.mantleColor ?? 'BLUE',
+                })
+                setEditingId(char.id)
+              }}
             />
           ))}
+        </div>
+      )}
+
+      {editingId && (
+        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center px-6" onClick={() => setEditingId(null)}>
+          <form
+            onSubmit={handleEdit}
+            onClick={e => e.stopPropagation()}
+            className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 w-full max-w-md flex flex-col gap-4"
+          >
+            <h2 className="text-white font-medium text-lg">Editar personagem</h2>
+
+            <div className="flex flex-col gap-1">
+              <label className="text-sm text-zinc-400">Nick</label>
+              <input
+                value={editForm.nick}
+                onChange={e => setEditForm(prev => ({ ...prev, nick: e.target.value }))}
+                className="bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-amber-500"
+                required
+              />
+            </div>
+
+            <div className="flex flex-col gap-1">
+              <label className="text-sm text-zinc-400">Guild (opcional)</label>
+              <input
+                value={editForm.guild}
+                onChange={e => setEditForm(prev => ({ ...prev, guild: e.target.value }))}
+                className="bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-amber-500"
+                placeholder="Nome da guild"
+              />
+            </div>
+
+            <label className="flex items-center gap-2 text-sm text-zinc-400 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={editForm.hasGuild}
+                onChange={e => setEditForm(prev => ({ ...prev, hasGuild: e.target.checked }))}
+                className="accent-amber-500"
+              />
+              Tem guild ativa
+            </label>
+
+            <div className="flex flex-col gap-2">
+              <label className="text-sm text-zinc-400">Cor da capa</label>
+              <div className="flex gap-3">
+                {Object.entries(MANTLE_COLORS).map(([key, color]) => (
+                  <button
+                    key={key}
+                    type="button"
+                    onClick={() => setEditForm(prev => ({ ...prev, mantleColor: key }))}
+                    className={`flex-1 py-2 rounded-lg border text-sm transition-all ${
+                      editForm.mantleColor === key
+                        ? `${color.border} text-white bg-zinc-800`
+                        : 'border-zinc-700 text-zinc-500 hover:border-zinc-500'
+                    }`}
+                  >
+                    {color.label}
+                  </button>
+                ))}
+              </div>
+              <div className={`h-2 rounded-full bg-linear-to-r ${
+                editForm.mantleColor === 'BLUE' ? 'from-blue-600 to-blue-400' :
+                editForm.mantleColor === 'WHITE' ? 'from-zinc-400 to-zinc-200' :
+                'from-red-600 to-red-400'
+              }`} />
+            </div>
+
+            <div className="flex gap-3 mt-2">
+              <button
+                type="submit"
+                disabled={editSaving}
+                className="flex-1 py-2.5 bg-amber-500 hover:bg-amber-400 text-black font-medium rounded-lg transition-colors disabled:opacity-50"
+              >
+                {editSaving ? 'Salvando...' : 'Salvar'}
+              </button>
+              <button
+                type="button"
+                onClick={() => setEditingId(null)}
+                className="px-4 py-2.5 text-zinc-400 hover:text-white rounded-lg hover:bg-zinc-800 transition-all"
+              >
+                Cancelar
+              </button>
+            </div>
+          </form>
         </div>
       )}
 

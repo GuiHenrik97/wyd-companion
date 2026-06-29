@@ -20,13 +20,14 @@ export class PrismaCharacterRepository implements CharacterRepositoryPort {
     })
   }
 
-  async create(data: { userId: string; nick: string; guild?: string; hasGuild?: boolean }) {
+  async create(data: { userId: string; nick: string; guild?: string; hasGuild?: boolean; mantleColor?: string }) {
     return this.prisma.character.create({
       data: {
         userId: data.userId,
         nick: data.nick,
         guild: data.guild,
         hasGuild: data.hasGuild ?? false,
+        mantleColor: data.mantleColor ?? null,
         seal: { create: { bodyClass: 'TK', class1Type: 'TK', class1Lineage: '' } },
         accountGear: { create: {} },
         itemSet: { create: {} },

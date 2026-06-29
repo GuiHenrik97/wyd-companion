@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Patch, Delete, Body, Param, UseGuards } from '@nestjs/common'
+import { Controller, Get, Post, Patch, Delete, Body, Param, UseGuards, NotFoundException } from '@nestjs/common'
 import { JwtAuthGuard } from '../guards/jwt-auth.guard'
 import { CurrentUser } from '../decorators/current-user.decorator'
 import { CreateCharacterUseCase } from '../../application/use-cases/character/create-character.usecase'
@@ -8,6 +8,7 @@ import { UpdateAccountGearUseCase } from '../../application/use-cases/character/
 import { UpdateItemSetUseCase } from '../../application/use-cases/character/update-item-set.usecase'
 import { CreateCharacterDto } from '../../application/dtos/create-character.dto'
 import { UpdateSealDto } from '../../application/dtos/update-seal.dto'
+import { PrismaService } from '../../infrastructure/database/prisma.service'
 
 @Controller('characters')
 @UseGuards(JwtAuthGuard)
@@ -18,6 +19,7 @@ export class CharacterController {
     private updateSeal: UpdateSealUseCase,
     private updateAccountGear: UpdateAccountGearUseCase,
     private updateItemSet: UpdateItemSetUseCase,
+    private prisma: PrismaService,
   ) {}
 
   @Get()
@@ -28,6 +30,22 @@ export class CharacterController {
   @Post()
   create(@CurrentUser() user: any, @Body() dto: CreateCharacterDto) {
     return this.createCharacter.execute(user.id, dto)
+  }
+
+  @Patch(':id')
+  async update(
+    @Param('id') id: string,
+    @CurrentUser() user: any,
+    @Body() body: { nick?: string; guild?: string; hasGuild?: boolean; mantleColor?: string },
+  ) {
+    const characters = await this.listCharacters.execute(user.id)
+    const char = characters.find((c: any) => c.id === id)
+    if (!char) throw new NotFoundException()
+    return this.prisma.character.update({
+      where: { id },
+      data: body,
+      include: { seal: true, accountGear: true, itemSet: true },
+    })
   }
 
   @Patch(':id/seal')

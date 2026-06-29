@@ -8,7 +8,7 @@ export class CreateCharacterUseCase {
     private characterRepo: CharacterRepositoryPort,
   ) {}
 
-  async execute(userId: string, data: { nick: string; guild?: string; hasGuild?: boolean }) {
+  async execute(userId: string, data: { nick: string; guild?: string; hasGuild?: boolean; mantleColor?: string }) {
     return this.characterRepo.create({ userId, ...data })
   }
 }
