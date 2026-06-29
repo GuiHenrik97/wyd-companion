@@ -11,7 +11,7 @@ const MANTLE_COLORS: Record<string, { bg: string; border: string; label: string 
   RED:   { bg: 'from-red-900/30 to-transparent',   border: 'border-red-500/30',   label: 'Vermelha' },
 }
 
-function CharacterCard({ char, onClick, onEdit }: { char: any; onClick: () => void; onEdit: () => void }) {
+function CharacterCard({ char, onClick, onEdit, onDelete }: { char: any; onClick: () => void; onEdit: () => void; onDelete: () => void }) {
   const seal = char.seal ?? {}
   const gear = char.accountGear ?? {}
   const items = char.itemSet ?? {}
@@ -25,12 +25,20 @@ function CharacterCard({ char, onClick, onEdit }: { char: any; onClick: () => vo
       className={`${color ? `bg-linear-to-b ${color.bg} border ${color.border}` : 'bg-zinc-900 border-zinc-800'} hover:brightness-110 rounded-2xl p-6 cursor-pointer transition-all group relative`}
       onClick={onClick}
     >
-      <button
-        onClick={e => { e.stopPropagation(); onEdit() }}
-        className="absolute top-4 right-4 text-zinc-600 hover:text-zinc-300 text-xs px-2 py-1 rounded-lg hover:bg-zinc-800 transition-all"
-      >
-        ✎ Editar
-      </button>
+      <div className="absolute top-4 right-4 flex gap-2">
+        <button
+          onClick={e => { e.stopPropagation(); onEdit() }}
+          className="text-zinc-600 hover:text-zinc-300 text-xs px-2 py-1 rounded-lg hover:bg-zinc-800 transition-all"
+        >
+          ✎ Editar
+        </button>
+        <button
+          onClick={e => { e.stopPropagation(); onDelete() }}
+          className="text-zinc-600 hover:text-red-400 text-xs px-2 py-1 rounded-lg hover:bg-zinc-800 transition-all"
+        >
+          ✕
+        </button>
+      </div>
 
       <div className="flex items-start justify-between mb-4 pr-16">
         <div>
@@ -135,6 +143,8 @@ export function Dashboard() {
   const [editingId, setEditingId] = useState<string | null>(null)
   const [editForm, setEditForm] = useState({ nick: '', guild: '', hasGuild: false, mantleColor: 'BLUE' })
   const [editSaving, setEditSaving] = useState(false)
+  const [deletingId, setDeletingId] = useState<string | null>(null)
+  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null)
 
   useEffect(() => {
     Promise.all([
@@ -161,6 +171,14 @@ export function Dashboard() {
     } finally {
       setCreating(false)
     }
+  }
+
+  const handleDelete = async (id: string) => {
+    setDeletingId(id)
+    await characterApi.delete(id)
+    setCharacters(prev => prev.filter(c => c.id !== id))
+    setConfirmDeleteId(null)
+    setDeletingId(null)
   }
 
   const handleEdit = async (e: React.FormEvent) => {
@@ -267,6 +285,7 @@ export function Dashboard() {
                 })
                 setEditingId(char.id)
               }}
+              onDelete={() => setConfirmDeleteId(char.id)}
             />
           ))}
         </div>
@@ -353,6 +372,35 @@ export function Dashboard() {
               </button>
             </div>
           </form>
+        </div>
+      )}
+
+      {confirmDeleteId && (
+        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center px-6" onClick={() => setConfirmDeleteId(null)}>
+          <div
+            onClick={e => e.stopPropagation()}
+            className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 w-full max-w-sm flex flex-col gap-4"
+          >
+            <h2 className="text-white font-medium text-lg">Remover personagem</h2>
+            <p className="text-zinc-400 text-sm">
+              Tem certeza que deseja remover <span className="text-white font-medium">{characters.find(c => c.id === confirmDeleteId)?.nick}</span>? Esta ação não pode ser desfeita.
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => handleDelete(confirmDeleteId)}
+                disabled={deletingId === confirmDeleteId}
+                className="flex-1 py-2.5 bg-red-600 hover:bg-red-500 text-white font-medium rounded-lg transition-colors disabled:opacity-50"
+              >
+                {deletingId === confirmDeleteId ? 'Removendo...' : 'Remover'}
+              </button>
+              <button
+                onClick={() => setConfirmDeleteId(null)}
+                className="px-4 py-2.5 text-zinc-400 hover:text-white rounded-lg hover:bg-zinc-800 transition-all"
+              >
+                Cancelar
+              </button>
+            </div>
+          </div>
         </div>
       )}
 

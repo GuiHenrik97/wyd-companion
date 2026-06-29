@@ -18,6 +18,7 @@ import { ListCharactersUseCase } from './application/use-cases/character/list-ch
 import { UpdateSealUseCase } from './application/use-cases/character/update-seal.usecase'
 import { UpdateAccountGearUseCase } from './application/use-cases/character/update-account-gear.usecase'
 import { UpdateItemSetUseCase } from './application/use-cases/character/update-item-set.usecase'
+import { DeleteCharacterUseCase } from './application/use-cases/character/delete-character.usecase'
 import { GetTodayTasksUseCase } from './application/use-cases/daily/get-today-tasks.usecase'
 import { MarkTaskDoneUseCase } from './application/use-cases/daily/mark-task-done.usecase'
 
@@ -59,6 +60,7 @@ import { DAILY_LOG_REPOSITORY } from './application/ports/daily-log.repository.p
     UpdateSealUseCase,
     UpdateAccountGearUseCase,
     UpdateItemSetUseCase,
+    DeleteCharacterUseCase,
     GetTodayTasksUseCase,
     MarkTaskDoneUseCase,
   ],

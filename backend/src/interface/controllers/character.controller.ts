@@ -3,6 +3,7 @@ import { JwtAuthGuard } from '../guards/jwt-auth.guard'
 import { CurrentUser } from '../decorators/current-user.decorator'
 import { CreateCharacterUseCase } from '../../application/use-cases/character/create-character.usecase'
 import { ListCharactersUseCase } from '../../application/use-cases/character/list-characters.usecase'
+import { DeleteCharacterUseCase } from '../../application/use-cases/character/delete-character.usecase'
 import { UpdateSealUseCase } from '../../application/use-cases/character/update-seal.usecase'
 import { UpdateAccountGearUseCase } from '../../application/use-cases/character/update-account-gear.usecase'
 import { UpdateItemSetUseCase } from '../../application/use-cases/character/update-item-set.usecase'
@@ -16,6 +17,7 @@ export class CharacterController {
   constructor(
     private createCharacter: CreateCharacterUseCase,
     private listCharacters: ListCharactersUseCase,
+    private deleteCharacter: DeleteCharacterUseCase,
     private updateSeal: UpdateSealUseCase,
     private updateAccountGear: UpdateAccountGearUseCase,
     private updateItemSet: UpdateItemSetUseCase,
@@ -46,6 +48,15 @@ export class CharacterController {
       data: body,
       include: { seal: true, accountGear: true, itemSet: true },
     })
+  }
+
+  @Delete(':id')
+  async remove(@Param('id') id: string, @CurrentUser() user: any) {
+    const characters = await this.listCharacters.execute(user.id)
+    const char = characters.find((c: any) => c.id === id)
+    if (!char) throw new NotFoundException()
+    await this.deleteCharacter.execute(id)
+    return { message: 'Personagem removido' }
   }
 
   @Patch(':id/seal')

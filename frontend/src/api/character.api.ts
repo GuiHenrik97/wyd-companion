@@ -9,4 +9,5 @@ export const characterApi = {
   updateItemSet: (id: string, data: any) => api.patch(`/characters/${id}/item-set`, data),
   update: (id: string, data: { nick?: string; guild?: string; hasGuild?: boolean; mantleColor?: string }) =>
     api.patch(`/characters/${id}`, data),
+  delete: (id: string) => api.delete(`/characters/${id}`),
 }
