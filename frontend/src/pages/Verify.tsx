@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useSearchParams, useNavigate } from 'react-router-dom'
 import { api } from '../api/client'
+import { useAuthStore } from '../store/auth.store'
 
 export function Verify() {
   const [params] = useSearchParams()
   const navigate = useNavigate()
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading')
+  const { setEmailVerified } = useAuthStore()
 
   useEffect(() => {
     const token = params.get('token')
@@ -14,6 +16,7 @@ export function Verify() {
     api.post('/auth/verify-email', { token })
       .then(() => {
         setStatus('success')
+        setEmailVerified(true)
         setTimeout(() => navigate('/app/dashboard'), 3000)
       })
       .catch(() => setStatus('error'))
