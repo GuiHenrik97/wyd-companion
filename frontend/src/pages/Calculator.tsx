@@ -51,13 +51,8 @@ function getProcessTiers(name: string): string[] {
     .normalize('NFD')
     .replace(/[̀-ͯ]/g, '')
 
-  // Anubis tem prioridade — criações de Anubis NÃO vão para BAHAMUT
   if (n.includes('ANUBIS')) return ['ANUBIS']
-
-  // Mortal/Arch juntos aparecem nos dois filtros
   if (n.includes('MORTAL') && n.includes('ARCH')) return ['MORTAL', 'ARCH']
-
-  // Criações de armadura — detecta pelo resultado
   if (n.includes('CRIACAO ARMADURA BAHAMUT') || (n.includes('RD') && n.includes('BAHAMUT'))) return ['BAHAMUT']
   if (n.includes('CRIACAO ITEM RD') || (n.includes('CELESTIAL') && n.includes('RD +9'))) return ['RD']
   if (n.includes('CRIACAO ITEM CELESTIAL') || n.includes('CRIACAO ARMA CELESTIAL')) return ['CELESTIAL']
@@ -86,7 +81,17 @@ function getProcessOrder(process: any): number {
   return tierOrder * 10000 + (isCreation ? 0 : 1000) + level
 }
 
-function ProcessCard({ process, inventory }: { process: any; inventory: Record<string, number> }) {
+function ProcessCard({
+  process,
+  inventory,
+  inCart,
+  onToggleCart,
+}: {
+  process: any
+  inventory: Record<string, number>
+  inCart: boolean
+  onToggleCart: (process: any, quantity: number) => void
+}) {
   const [open, setOpen] = useState(false)
   const [quantity, setQuantity] = useState(1)
 
@@ -196,6 +201,17 @@ function ProcessCard({ process, inventory }: { process: any; inventory: Record<s
               })}
             </div>
           </div>
+
+          <button
+            onClick={e => { e.stopPropagation(); onToggleCart(process, quantity) }}
+            className={`text-xs px-3 py-1.5 rounded-lg border transition-all w-fit ${
+              inCart
+                ? 'bg-amber-500/10 border-amber-500/40 text-amber-400'
+                : 'bg-zinc-800 border-zinc-700 text-zinc-400 hover:border-amber-500/40 hover:text-white'
+            }`}
+          >
+            {inCart ? '✓ No cálculo' : '+ Adicionar ao cálculo'}
+          </button>
         </div>
       )}
     </div>
@@ -213,6 +229,8 @@ export function Calculator() {
   const [activeFilters, setActiveFilters] = useState<string[]>([])
   const [showInventory, setShowInventory] = useState(false)
   const [inventorySearch, setInventorySearch] = useState('')
+  const [cart, setCart] = useState<Array<{ process: any; quantity: number }>>([])
+  const [showCart, setShowCart] = useState(false)
 
   useEffect(() => {
     const promises: Promise<any>[] = [calculatorApi.getProcesses(), calculatorApi.getResources()]
@@ -234,6 +252,20 @@ export function Calculator() {
     setActiveFilters(prev =>
       prev.includes(f) ? prev.filter(x => x !== f) : [...prev, f]
     )
+  }
+
+  const toggleCart = (process: any, quantity: number) => {
+    setCart(prev => {
+      const exists = prev.find(item => item.process.id === process.id)
+      if (exists) return prev.filter(item => item.process.id !== process.id)
+      return [...prev, { process, quantity }]
+    })
+  }
+
+  const updateCartQuantity = (processId: string, quantity: number) => {
+    setCart(prev => prev.map(item =>
+      item.process.id === processId ? { ...item, quantity } : item
+    ))
   }
 
   const filtered = processes
@@ -341,9 +373,15 @@ export function Calculator() {
           {filtered.length === 0 ? (
             <p className="text-zinc-600 text-sm">Nenhum processo encontrado.</p>
           ) : (
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 pb-24">
               {filtered.map(process => (
-                <ProcessCard key={process.id} process={process} inventory={inventory} />
+                <ProcessCard
+                  key={process.id}
+                  process={process}
+                  inventory={inventory}
+                  inCart={cart.some(item => item.process.id === process.id)}
+                  onToggleCart={toggleCart}
+                />
               ))}
             </div>
           )}
@@ -405,6 +443,161 @@ export function Calculator() {
           </div>
         )}
       </div>
+
+      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40">
+        <button
+          onClick={() => setShowCart(true)}
+          className="flex items-center gap-3 bg-amber-500 hover:bg-amber-400 text-black font-medium px-6 py-3 rounded-full shadow-lg transition-all"
+        >
+          {cart.length > 0 && (
+            <span className="bg-black/20 text-black text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">
+              {cart.length}
+            </span>
+          )}
+          Calcular materiais
+        </button>
+      </div>
+
+      {showCart && (
+        <div className="fixed inset-0 bg-black/70 z-50 flex items-end md:items-center justify-center p-4" onClick={() => setShowCart(false)}>
+          <div
+            onClick={e => e.stopPropagation()}
+            className="bg-zinc-900 border border-zinc-800 rounded-2xl w-full max-w-2xl max-h-[80vh] flex flex-col"
+          >
+            <div className="flex items-center justify-between p-6 border-b border-zinc-800">
+              <h2 className="text-white font-medium text-lg">Cálculo de materiais</h2>
+              <button onClick={() => setShowCart(false)} className="text-zinc-500 hover:text-white transition-colors">✕</button>
+            </div>
+
+            <div className="overflow-y-auto flex-1 p-6 flex flex-col gap-6">
+              {cart.length === 0 ? (
+                <div className="flex flex-col items-center gap-4 py-12 text-center">
+                  <div className="w-14 h-14 rounded-full bg-zinc-800 flex items-center justify-center text-3xl">
+                    🧮
+                  </div>
+                  <div>
+                    <p className="text-white font-medium">Nenhum processo adicionado</p>
+                    <p className="text-zinc-500 text-sm mt-1 max-w-xs">
+                      Adicione processos clicando em <span className="text-amber-400">+ Adicionar ao cálculo</span> em cada processo para calcular seus materiais.
+                    </p>
+                  </div>
+                </div>
+              ) : (<>
+              <div className="flex flex-col gap-2">
+                <h3 className="text-zinc-500 text-xs uppercase tracking-wide mb-1">Processos selecionados</h3>
+                {cart.map(item => (
+                  <div key={item.process.id} className="flex items-center justify-between gap-3">
+                    <span className="text-zinc-300 text-sm min-w-0 truncate">
+                      <span className="text-amber-400 font-medium">x{item.quantity}</span>{' '}
+                      {item.process.name}
+                    </span>
+                    <div className="flex items-center gap-2 shrink-0">
+                      <div className="flex items-center gap-1">
+                        <button
+                          onClick={() => updateCartQuantity(item.process.id, Math.max(1, item.quantity - 1))}
+                          className="w-5 h-5 rounded bg-zinc-800 text-zinc-400 hover:text-white text-xs flex items-center justify-center"
+                        >−</button>
+                        <span className="text-white text-xs w-6 text-center">{item.quantity}</span>
+                        <button
+                          onClick={() => updateCartQuantity(item.process.id, item.quantity + 1)}
+                          className="w-5 h-5 rounded bg-zinc-800 text-zinc-400 hover:text-white text-xs flex items-center justify-center"
+                        >+</button>
+                      </div>
+                      <button
+                        onClick={() => toggleCart(item.process, item.quantity)}
+                        className="text-zinc-600 hover:text-red-400 text-xs transition-colors"
+                      >✕</button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {(() => {
+                const totals: Record<string, { resource: any; needed: number; isConsumedOnFail: boolean }> = {}
+
+                cart.forEach(({ process, quantity }) => {
+                  process.resources?.forEach((pr: any) => {
+                    const id = pr.resource.id
+                    const qty = pr.isConsumedOnFail ? pr.quantity * quantity : pr.quantity
+                    if (!totals[id]) totals[id] = { resource: pr.resource, needed: 0, isConsumedOnFail: pr.isConsumedOnFail }
+                    totals[id].needed += qty
+                  })
+                })
+
+                const entries = Object.values(totals).sort((a, b) => a.resource.name.localeCompare(b.resource.name))
+                const hasInventory = Object.keys(inventory).length > 0
+
+                let limitingResource: { name: string; have: number; need: number } | null = null
+
+                if (hasInventory) {
+                  entries.forEach(({ resource, needed }) => {
+                    const have = inventory[resource.id] ?? 0
+                    if (have < needed) {
+                      if (!limitingResource || (have / needed) < (limitingResource.have / limitingResource.need)) {
+                        limitingResource = { name: resource.name, have, need: needed }
+                      }
+                    }
+                  })
+                }
+
+                return (
+                  <div className="flex flex-col gap-3">
+                    <h3 className="text-zinc-500 text-xs uppercase tracking-wide">Materiais necessários</h3>
+                    <div className="flex flex-col gap-1.5">
+                      {entries.map(({ resource, needed, isConsumedOnFail }) => {
+                        const have = inventory[resource.id] ?? 0
+                        const missing = needed - have
+                        const isLimiting = limitingResource !== null && (limitingResource as any).name === resource.name
+
+                        return (
+                          <div key={resource.id} className={`flex items-center justify-between py-1.5 px-3 rounded-lg ${
+                            isLimiting ? 'bg-red-500/10 border border-red-500/20' :
+                            hasInventory && missing > 0 ? 'bg-zinc-800/50' : 'bg-zinc-800/30'
+                          }`}>
+                            <div className="flex items-center gap-2 min-w-0">
+                              <span className={`text-sm font-medium shrink-0 ${isConsumedOnFail ? 'text-zinc-300' : 'text-amber-400'}`}>
+                                {needed}x
+                              </span>
+                              <span className="text-zinc-300 text-sm truncate">{resource.name}</span>
+                              {!isConsumedOnFail && <span className="text-amber-600 text-xs shrink-0">(não consome em falha)</span>}
+                              {isLimiting && <span className="text-red-400 text-xs font-medium shrink-0">⚠ limitante</span>}
+                            </div>
+                            {hasInventory && (
+                              <span className={`text-xs font-medium shrink-0 ml-3 ${missing > 0 ? 'text-red-400' : 'text-green-400'}`}>
+                                {missing > 0 ? `faltam ${missing}` : `✓ tem ${have}`}
+                              </span>
+                            )}
+                          </div>
+                        )
+                      })}
+                    </div>
+
+                    {limitingResource && (
+                      <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-3 mt-2">
+                        <p className="text-red-400 text-sm font-medium">⚠ Material limitante</p>
+                        <p className="text-red-300 text-xs mt-1">
+                          <span className="font-medium">{(limitingResource as any).name}</span> é o recurso mais crítico —
+                          você tem {(limitingResource as any).have} mas precisa de {(limitingResource as any).need}.
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                )
+              })()}
+              </>)}
+            </div>
+
+            <div className="p-4 border-t border-zinc-800">
+              <button
+                onClick={() => { setCart([]); setShowCart(false) }}
+                className="w-full py-2 text-zinc-500 hover:text-red-400 text-sm transition-colors"
+              >
+                Limpar cálculo
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   )
 }
