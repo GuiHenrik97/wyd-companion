@@ -27,6 +27,6 @@ export class LoginUseCase {
 
     await this.userRepo.updateRefreshToken(user.id, refreshToken)
 
-    return { accessToken, refreshToken, userId: user.id }
+    return { accessToken, refreshToken, userId: user.id, emailVerified: user.emailVerified }
   }
 }

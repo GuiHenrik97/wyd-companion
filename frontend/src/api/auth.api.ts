@@ -5,9 +5,11 @@ export const authApi = {
     api.post('/auth/register', { email, password }),
 
   login: (email: string, password: string) =>
-    api.post<{ accessToken: string; refreshToken: string; userId: string }>(
+    api.post<{ accessToken: string; refreshToken: string; userId: string; emailVerified: boolean }>(
       '/auth/login', { email, password }
     ),
 
   logout: () => api.post('/auth/logout'),
+
+  checkVerification: () => api.get('/auth/me'),
 }

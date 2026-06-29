@@ -9,6 +9,7 @@ import { PrismaCharacterRepository } from './infrastructure/database/repositorie
 import { PrismaDailyLogRepository } from './infrastructure/database/repositories/prisma-daily-log.repository'
 import { BcryptService } from './infrastructure/auth/bcrypt.service'
 import { JwtStrategy } from './infrastructure/auth/jwt.strategy'
+import { EmailService } from './infrastructure/auth/email.service'
 
 import { RegisterUseCase } from './application/use-cases/auth/register.usecase'
 import { LoginUseCase } from './application/use-cases/auth/login.usecase'
@@ -47,6 +48,7 @@ import { DAILY_LOG_REPOSITORY } from './application/ports/daily-log.repository.p
     JwtStrategy,
 
     { provide: 'BCRYPT_SERVICE', useClass: BcryptService },
+    EmailService,
 
     { provide: USER_REPOSITORY, useClass: PrismaUserRepository },
     { provide: CHARACTER_REPOSITORY, useClass: PrismaCharacterRepository },

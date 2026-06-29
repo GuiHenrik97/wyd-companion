@@ -13,6 +13,7 @@ import { AudioPlayer } from './components/ui/AudioPlayer'
 import { Calculator } from './pages/Calculator'
 import { Privacy } from './pages/Privacy'
 import { Profile } from './pages/app/Profile'
+import { Verify } from './pages/Verify'
 
 export default function App() {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated)
@@ -45,6 +46,7 @@ export default function App() {
           } />
           <Route path="/calculadora" element={<Calculator />} />
           <Route path="/privacidade" element={<Privacy />} />
+          <Route path="/verificar" element={<Verify />} />
           <Route path="/app/perfil" element={
             <ProtectedRoute><Profile /></ProtectedRoute>
           } />

@@ -11,8 +11,10 @@ model User {
   id           String      @id @default(uuid())
   email        String      @unique
   passwordHash String
-  refreshToken String?
-  createdAt    DateTime    @default(now())
+  refreshToken           String?
+  emailVerified          Boolean  @default(false)
+  emailVerificationToken String?
+  createdAt              DateTime @default(now())
   updatedAt    DateTime    @updatedAt
   characters   Character[]
   inventory    PlayerInventory[]

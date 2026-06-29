@@ -7,7 +7,7 @@ import { Button } from '../components/ui/Button'
 
 export function Login() {
   const navigate = useNavigate()
-  const { setTokens, setUserId, setEmail } = useAuthStore()
+  const { setTokens, setUserId, setEmail, setEmailVerified } = useAuthStore()
   const [emailInput, setEmailInput] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -22,6 +22,7 @@ export function Login() {
       setTokens(data.accessToken, data.refreshToken)
       setUserId(data.userId)
       setEmail(emailInput)
+      setEmailVerified(data.emailVerified ?? false)
       navigate('/app/dashboard')
     } catch {
       setError('Email ou senha incorretos')

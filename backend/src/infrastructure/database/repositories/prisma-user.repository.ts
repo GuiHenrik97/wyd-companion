@@ -10,23 +10,38 @@ export class PrismaUserRepository implements UserRepositoryPort {
   async findById(id: string): Promise<UserEntity | null> {
     const user = await this.prisma.user.findUnique({ where: { id } })
     if (!user) return null
-    return new UserEntity(user.id, user.email, user.passwordHash, user.refreshToken, user.createdAt)
+    return new UserEntity(user.id, user.email, user.passwordHash, user.refreshToken, user.createdAt, user.emailVerified)
   }
 
   async findByEmail(email: string): Promise<UserEntity | null> {
     const user = await this.prisma.user.findUnique({ where: { email } })
     if (!user) return null
-    return new UserEntity(user.id, user.email, user.passwordHash, user.refreshToken, user.createdAt)
+    return new UserEntity(user.id, user.email, user.passwordHash, user.refreshToken, user.createdAt, user.emailVerified)
   }
 
-  async save(data: Omit<UserEntity, 'id' | 'createdAt'>): Promise<UserEntity> {
-    const user = await this.prisma.user.create({
-      data: { email: data.email, passwordHash: data.passwordHash },
+  async save(data: any): Promise<any> {
+    return this.prisma.user.create({
+      data: {
+        email: data.email,
+        passwordHash: data.passwordHash,
+        emailVerified: data.emailVerified ?? false,
+        emailVerificationToken: data.emailVerificationToken ?? null,
+      },
     })
-    return new UserEntity(user.id, user.email, user.passwordHash, user.refreshToken, user.createdAt)
   }
 
   async updateRefreshToken(id: string, token: string | null): Promise<void> {
     await this.prisma.user.update({ where: { id }, data: { refreshToken: token } })
+  }
+
+  async findByVerificationToken(token: string): Promise<any | null> {
+    return this.prisma.user.findFirst({ where: { emailVerificationToken: token } })
+  }
+
+  async verifyEmail(id: string): Promise<void> {
+    await this.prisma.user.update({
+      where: { id },
+      data: { emailVerified: true, emailVerificationToken: null },
+    })
   }
 }

@@ -7,7 +7,7 @@ import { Button } from '../components/ui/Button'
 
 export function Register() {
   const navigate = useNavigate()
-  const { setTokens, setUserId, setEmail } = useAuthStore()
+  const { setTokens, setUserId, setEmail, setEmailVerified } = useAuthStore()
   const [emailInput, setEmailInput] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -23,6 +23,7 @@ export function Register() {
       setTokens(data.accessToken, data.refreshToken)
       setUserId(data.userId)
       setEmail(emailInput)
+      setEmailVerified(false)
       navigate('/app/dashboard')
     } catch (err: any) {
       setError(err?.response?.data?.message || 'Erro ao criar conta')

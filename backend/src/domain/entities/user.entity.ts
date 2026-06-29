@@ -5,5 +5,6 @@ export class UserEntity {
     public passwordHash: string,
     public refreshToken: string | null,
     public readonly createdAt: Date,
+    public emailVerified: boolean = false,
   ) {}
 }
