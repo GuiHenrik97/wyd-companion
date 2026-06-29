@@ -547,7 +547,7 @@ async function main() {
       create: {
         name: 'Soul Fragment',
         slug: 'soul-fragment',
-        category: 'MOUNT',
+        category: 'OTHER',
         mobile: true,
       },
     }),

@@ -162,11 +162,6 @@ export function Inventory() {
                     {!resource.mobile && (
                       <span className="text-zinc-600 text-xs shrink-0">🔒</span>
                     )}
-                    {resource.obtainHint && (
-                      <span className="text-zinc-600 text-xs hidden md:inline truncate">
-                        · {resource.obtainHint}
-                      </span>
-                    )}
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
                     {saving === resource.id && (
