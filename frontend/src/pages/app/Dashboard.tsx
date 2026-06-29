@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { characterApi } from '../../api/character.api'
+import { calculatorApi } from '../../api/calculator.api'
 import { Button } from '../../components/ui/Button'
 import { Input } from '../../components/ui/Input'
 
@@ -115,6 +116,8 @@ export function Dashboard() {
   const navigate = useNavigate()
   const [characters, setCharacters] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
+  const [inventory, setInventory] = useState<any[]>([])
+  const [inventoryLoading, setInventoryLoading] = useState(true)
   const [creating, setCreating] = useState(false)
   const [showForm, setShowForm] = useState(false)
   const [nick, setNick] = useState('')
@@ -122,9 +125,14 @@ export function Dashboard() {
   const [hasGuild, setHasGuild] = useState(false)
 
   useEffect(() => {
-    characterApi.list().then(({ data }) => {
-      setCharacters(data)
+    Promise.all([
+      characterApi.list(),
+      calculatorApi.getInventory(),
+    ]).then(([charRes, invRes]) => {
+      setCharacters(charRes.data)
+      setInventory(invRes.data.filter((item: any) => item.quantity > 0))
       setLoading(false)
+      setInventoryLoading(false)
     })
   }, [])
 
@@ -186,6 +194,65 @@ export function Dashboard() {
           ))}
         </div>
       )}
+
+      <div className="mt-12">
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h2 className="text-2xl font-bold text-white">Meu inventário</h2>
+            <p className="text-zinc-400 text-sm mt-0.5">Recursos cadastrados na sua conta</p>
+          </div>
+          <a
+            href="/app/inventario"
+            className="text-amber-500 hover:text-amber-400 text-sm transition-colors"
+          >
+            Gerenciar →
+          </a>
+        </div>
+
+        {inventoryLoading ? (
+          <p className="text-zinc-500 text-sm">Carregando...</p>
+        ) : inventory.length === 0 ? (
+          <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-10 text-center flex flex-col items-center gap-4">
+            <div className="w-12 h-12 rounded-full bg-zinc-800 flex items-center justify-center text-2xl">
+              📦
+            </div>
+            <div>
+              <p className="text-white font-medium">Nenhum item registrado ainda</p>
+              <p className="text-zinc-500 text-sm mt-1">
+                Registre seus itens para ver o que tem no inventário e usar os recursos da calculadora.
+              </p>
+            </div>
+            <a
+              href="/app/inventario"
+              className="px-6 py-2 bg-amber-500 hover:bg-amber-400 text-black text-sm font-medium rounded-lg transition-colors"
+            >
+              Cadastrar inventário
+            </a>
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+            {inventory
+              .sort((a, b) => b.quantity - a.quantity)
+              .map((item: any) => (
+                <a
+                  key={item.id}
+                  href="/app/inventario"
+                  className="bg-zinc-900 border border-zinc-800 hover:border-amber-500/40 rounded-xl p-4 flex flex-col gap-2 transition-all group"
+                >
+                  <p className="text-zinc-400 text-xs leading-tight group-hover:text-zinc-300 transition-colors">
+                    {item.resource.name}
+                  </p>
+                  <p className="text-white font-medium text-lg tabular-nums">
+                    {item.quantity.toLocaleString('pt-BR')}
+                  </p>
+                  {!item.resource.mobile && (
+                    <span className="text-zinc-600 text-xs">🔒 Imóvel</span>
+                  )}
+                </a>
+              ))}
+          </div>
+        )}
+      </div>
     </main>
   )
 }
