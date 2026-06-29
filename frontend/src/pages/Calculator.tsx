@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { calculatorApi } from '../api/calculator.api'
+import { useAuthStore } from '../store/auth.store'
 
 const CATEGORIES = [
   { key: 'ARMOR', label: 'Armaduras e Armas' },
@@ -85,7 +86,7 @@ function getProcessOrder(process: any): number {
   return tierOrder * 10000 + (isCreation ? 0 : 1000) + level
 }
 
-function ProcessCard({ process }: { process: any }) {
+function ProcessCard({ process, inventory }: { process: any; inventory: Record<string, number> }) {
   const [open, setOpen] = useState(false)
   const [quantity, setQuantity] = useState(1)
 
@@ -94,15 +95,25 @@ function ProcessCard({ process }: { process: any }) {
     totalQuantity: pr.isConsumedOnFail ? pr.quantity * quantity : pr.quantity,
   }))
 
+  const consumed = process.resources.filter((pr: any) => pr.isConsumedOnFail)
+  const possibleAttempts = consumed.length === 0 ? 0 : Math.min(
+    ...consumed.map((pr: any) => {
+      const have = inventory[pr.resource.id] ?? 0
+      return Math.floor(have / pr.quantity)
+    })
+  )
+
+  const hasInventory = Object.keys(inventory).length > 0
+
   return (
     <div className="bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden">
       <button
         onClick={() => setOpen(o => !o)}
         className="w-full flex items-center justify-between px-5 py-4 text-left hover:bg-zinc-800/50 transition-colors"
       >
-        <div className="flex items-center gap-3">
-          <span className={`text-zinc-500 transition-transform ${open ? 'rotate-90' : ''}`}>▶</span>
-          <div>
+        <div className="flex items-center gap-3 min-w-0">
+          <span className={`text-zinc-500 transition-transform shrink-0 ${open ? 'rotate-90' : ''}`}>▶</span>
+          <div className="min-w-0">
             <p className="text-white text-sm font-medium">{process.name}</p>
             {process.successRate && (
               <span className="text-xs text-amber-400">
@@ -111,6 +122,15 @@ function ProcessCard({ process }: { process: any }) {
             )}
           </div>
         </div>
+        {hasInventory && (
+          <span className={`text-xs px-2 py-0.5 rounded-full shrink-0 ml-3 ${
+            possibleAttempts === 0
+              ? 'bg-red-500/10 text-red-400 border border-red-500/20'
+              : 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
+          }`}>
+            {possibleAttempts} tentativa{possibleAttempts !== 1 ? 's' : ''} disponível{possibleAttempts !== 1 ? 'is' : ''}
+          </span>
+        )}
       </button>
 
       {open && (
@@ -139,22 +159,33 @@ function ProcessCard({ process }: { process: any }) {
               Materiais para {quantity} tentativa{quantity > 1 ? 's' : ''}
             </p>
             <div className="flex flex-wrap gap-2">
-              {totalResources.map((pr: any) => (
-                <div
-                  key={pr.resource.id}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs border ${
-                    pr.isConsumedOnFail
-                      ? 'bg-zinc-800 border-zinc-700 text-zinc-300'
-                      : 'bg-amber-500/10 border-amber-500/20 text-amber-400'
-                  }`}
-                >
-                  <span className="font-medium">{pr.totalQuantity}x</span>
-                  <span>{pr.resource.name}</span>
-                  {!pr.isConsumedOnFail && (
-                    <span className="text-amber-600 ml-1">(não consome em falha)</span>
-                  )}
-                </div>
-              ))}
+              {totalResources.map((pr: any) => {
+                const have = inventory[pr.resource.id] ?? 0
+                const enough = have >= pr.totalQuantity
+                return (
+                  <div
+                    key={pr.resource.id}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs border ${
+                      !pr.isConsumedOnFail
+                        ? 'bg-amber-500/10 border-amber-500/20 text-amber-400'
+                        : enough
+                        ? 'bg-zinc-800 border-zinc-700 text-zinc-300'
+                        : 'bg-red-500/10 border-red-500/20 text-red-400'
+                    }`}
+                  >
+                    <span className="font-medium">{pr.totalQuantity}x</span>
+                    <span>{pr.resource.name}</span>
+                    {hasInventory && pr.isConsumedOnFail && (
+                      <span className={`ml-1 ${enough ? 'text-zinc-500' : 'text-red-500'}`}>
+                        ({have} em estoque)
+                      </span>
+                    )}
+                    {!pr.isConsumedOnFail && (
+                      <span className="text-amber-600 ml-1">(não consome em falha)</span>
+                    )}
+                  </div>
+                )
+              })}
             </div>
           </div>
         </div>
@@ -164,25 +195,28 @@ function ProcessCard({ process }: { process: any }) {
 }
 
 export function Calculator() {
+  const isAuthenticated = useAuthStore(s => s.isAuthenticated)
   const [processes, setProcesses] = useState<any[]>([])
+  const [inventory, setInventory] = useState<Record<string, number>>({})
   const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState('ARMOR')
   const [search, setSearch] = useState('')
   const [activeFilters, setActiveFilters] = useState<string[]>([])
 
   useEffect(() => {
-    calculatorApi.getProcesses().then(({ data }) => {
-      setProcesses(data)
+    const promises: Promise<any>[] = [calculatorApi.getProcesses()]
+    if (isAuthenticated) promises.push(calculatorApi.getInventory())
+
+    Promise.all(promises).then(([procRes, invRes]) => {
+      setProcesses(procRes.data)
+      if (invRes) {
+        const inv: Record<string, number> = {}
+        invRes.data.forEach((item: any) => { inv[item.resourceId] = item.quantity })
+        setInventory(inv)
+      }
       setLoading(false)
-      console.log('Processes loaded:', data.length, data.map((p: any) => p.category))
-      ;(window as any).__processes = data
-      console.log('Processes by category:', data.reduce((acc: any, p: any) => {
-        acc[p.category] = (acc[p.category] || 0) + 1
-        return acc
-      }, {}))
-      console.log('ARMOR processes:', data.filter((p: any) => p.category === 'ARMOR').map((p: any) => p.name))
     })
-  }, [])
+  }, [isAuthenticated])
 
   const toggleFilter = (f: string) => {
     setActiveFilters(prev =>
@@ -223,6 +257,13 @@ export function Calculator() {
           Clique em um processo para ver os materiais necessários.{' '}
           <span className="text-amber-500">Itens em laranja não são consumidos em falha.</span>
         </p>
+        {isAuthenticated && (
+          <p className="text-zinc-500 text-xs mt-1">
+            Estoque baseado no seu{' '}
+            <a href="/app/inventario" className="text-amber-500 hover:text-amber-400 underline">inventário</a>.
+            {' '}Atualize-o para ver tentativas disponíveis.
+          </p>
+        )}
       </div>
 
       <div className="flex gap-1 mb-6 bg-zinc-900 p-1 rounded-lg overflow-x-auto">
@@ -274,7 +315,7 @@ export function Calculator() {
       ) : (
         <div className="flex flex-col gap-2">
           {filtered.map(process => (
-            <ProcessCard key={process.id} process={process} />
+            <ProcessCard key={process.id} process={process} inventory={inventory} />
           ))}
         </div>
       )}
