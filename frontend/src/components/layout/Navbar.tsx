@@ -18,20 +18,26 @@ export function Navbar() {
   return (
     <>
       {isAuthenticated && !emailVerified && (
-        <div className="bg-zinc-900/80 border-b border-zinc-800/50 px-6 py-2 flex items-center justify-between gap-4">
-          <p className="text-zinc-500 text-xs">
-            Confirme seu email para garantir acesso à sua conta.
+        <div className="border-b border-zinc-800/50 px-6 py-3 flex items-center justify-between gap-4" style={{ background: 'rgba(24,24,27,0.85)' }}>
+          <p className="text-zinc-400 text-sm">
+            ✉️ Confirme seu email para garantir acesso à sua conta.{' '}
           </p>
-          <button
-            onClick={async () => {
-              try {
-                await api.post('/auth/resend-verification')
-              } catch {}
-            }}
-            className="text-zinc-400 hover:text-white text-xs underline underline-offset-2 transition-colors shrink-0"
-          >
-            Reenviar email
-          </button>
+          <div className="flex items-center gap-3 shrink-0">
+            <button
+              onClick={async () => {
+                try { await api.post('/auth/resend-verification') } catch {}
+              }}
+              className="text-zinc-400 hover:text-white text-xs underline underline-offset-2 transition-colors"
+            >
+              Reenviar email
+            </button>
+            <button
+              onClick={() => useAuthStore.getState().setEmailVerified(true)}
+              className="text-zinc-500 hover:text-white text-sm transition-colors w-5 h-5 flex items-center justify-center rounded hover:bg-zinc-800"
+            >
+              ✕
+            </button>
+          </div>
         </div>
       )}
 
