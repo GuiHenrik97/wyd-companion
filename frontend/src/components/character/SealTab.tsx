@@ -78,8 +78,10 @@ export function SealTab({ character }: { character: any }) {
               <Input label="Linhagem" placeholder="ex: HT Sobrevivência"
                 value={(form as any)[`${prefix}Lineage`]} onChange={e => set(`${prefix}Lineage`, e.target.value)} />
             </div>
-            <Input label="Nível" type="number" min={0}
-              value={(form as any)[`${prefix}Level`]} onChange={e => set(`${prefix}Level`, Number(e.target.value))} />
+            <Input label="Nível" type="number" min={0} placeholder="0"
+              value={(form as any)[`${prefix}Level`] === 0 ? '' : (form as any)[`${prefix}Level`]}
+              onFocus={e => e.target.select()}
+              onChange={e => set(`${prefix}Level`, e.target.value === '' ? 0 : Number(e.target.value))} />
             <div className="flex flex-col gap-2">
               <label className="text-sm text-zinc-400">Skills</label>
               <div className="flex flex-wrap gap-4">
@@ -122,11 +124,16 @@ export function SealTab({ character }: { character: any }) {
         </div>
         {form.mantleType && (
           <div className="grid grid-cols-2 gap-4">
-            <Input label="Refinação" type="number" min={0} max={15}
-              value={form.mantleRefinement} onChange={e => set('mantleRefinement', Number(e.target.value))} />
+            <Input label="Refinação" type="number" min={0} max={15} placeholder="0"
+              value={form.mantleRefinement === 0 ? '' : form.mantleRefinement}
+              onFocus={e => e.target.select()}
+              onChange={e => set('mantleRefinement', e.target.value === '' ? 0 : Number(e.target.value))} />
             {form.mantleType === 'CELESTIAL'
               ? <Input label="Adicional" placeholder="BS/base" value={form.mantleAdditional} onChange={e => set('mantleAdditional', e.target.value)} />
-              : <Input label="Tier" type="number" min={0} max={5} value={form.mantleTier} onChange={e => set('mantleTier', Number(e.target.value))} />
+              : <Input label="Tier" type="number" min={0} max={5} placeholder="0"
+                  value={form.mantleTier === 0 ? '' : form.mantleTier}
+                  onFocus={e => e.target.select()}
+                  onChange={e => set('mantleTier', e.target.value === '' ? 0 : Number(e.target.value))} />
             }
           </div>
         )}

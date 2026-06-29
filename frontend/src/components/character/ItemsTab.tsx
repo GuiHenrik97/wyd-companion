@@ -161,9 +161,18 @@ export function ItemsTab({ character }: { character: any }) {
         </div>
         {form.mountType && (
           <div className="grid grid-cols-3 gap-4">
-            <Input label="Nível" type="number" min={0} max={200} value={form.mountLevel} onChange={e => set('mountLevel', Number(e.target.value))} />
-            <Input label="Vitalidade" type="number" min={0} max={60} value={form.mountVitality} onChange={e => set('mountVitality', Number(e.target.value))} />
-            <Input label="Qualidade" type="number" min={0} max={70} value={form.mountQuality} onChange={e => set('mountQuality', Number(e.target.value))} />
+            <Input label="Nível" type="number" min={0} max={200} placeholder="0"
+              value={form.mountLevel === 0 ? '' : form.mountLevel}
+              onFocus={e => e.target.select()}
+              onChange={e => set('mountLevel', e.target.value === '' ? 0 : Number(e.target.value))} />
+            <Input label="Vitalidade" type="number" min={0} max={60} placeholder="0"
+              value={form.mountVitality === 0 ? '' : form.mountVitality}
+              onFocus={e => e.target.select()}
+              onChange={e => set('mountVitality', e.target.value === '' ? 0 : Number(e.target.value))} />
+            <Input label="Qualidade" type="number" min={0} max={70} placeholder="0"
+              value={form.mountQuality === 0 ? '' : form.mountQuality}
+              onFocus={e => e.target.select()}
+              onChange={e => set('mountQuality', e.target.value === '' ? 0 : Number(e.target.value))} />
           </div>
         )}
       </div>

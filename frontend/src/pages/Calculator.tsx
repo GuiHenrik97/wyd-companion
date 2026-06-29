@@ -146,7 +146,15 @@ function ProcessCard({ process, inventory }: { process: any; inventory: Record<s
                 onClick={() => setQuantity(q => Math.max(1, q - 1))}
                 className="w-7 h-7 rounded bg-zinc-800 text-zinc-400 hover:text-white flex items-center justify-center"
               >−</button>
-              <span className="text-white text-sm w-10 text-center font-medium">{quantity}</span>
+              <input
+                type="number"
+                min={1}
+                value={quantity === 1 ? '' : quantity}
+                placeholder="1"
+                onFocus={e => e.target.select()}
+                onChange={e => setQuantity(e.target.value === '' ? 1 : Math.max(1, Number(e.target.value)))}
+                className="w-10 text-center bg-zinc-800 border border-zinc-700 rounded px-1 py-0.5 text-white text-sm focus:outline-none focus:border-amber-500"
+              />
               <button
                 onClick={() => setQuantity(q => q + 1)}
                 className="w-7 h-7 rounded bg-zinc-800 text-zinc-400 hover:text-white flex items-center justify-center"

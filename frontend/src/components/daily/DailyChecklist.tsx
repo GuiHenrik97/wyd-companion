@@ -52,6 +52,7 @@ export function DailyChecklist({ tasks, onMark, onUnmark, characterId, cycleDay,
               min={1}
               max={14}
               value={dayInput}
+              onFocus={e => e.target.select()}
               onChange={(e) => setDayInput(Number(e.target.value))}
               className="w-14 bg-zinc-800 border border-zinc-700 rounded px-2 py-1 text-white text-xs text-center focus:outline-none focus:border-amber-500"
             />
