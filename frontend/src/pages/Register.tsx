@@ -71,6 +71,9 @@ export function Register() {
           <Button type="submit" loading={loading} className="w-full py-3 mt-2">
             Criar conta
           </Button>
+          <p className="text-zinc-600 text-xs text-center">
+            Você receberá um email de confirmação. Verifique também a pasta de spam.
+          </p>
         </form>
 
         <p className="text-zinc-600 text-xs text-center">

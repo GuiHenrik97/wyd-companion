@@ -8,6 +8,7 @@ export function Navbar() {
   const { isAuthenticated, emailVerified, logout } = useAuthStore()
   const navigate = useNavigate()
   const [menuOpen, setMenuOpen] = useState(false)
+  const [resendStatus, setResendStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
 
   const handleLogout = () => {
     logout()
@@ -25,11 +26,25 @@ export function Navbar() {
           <div className="flex items-center gap-3 shrink-0">
             <button
               onClick={async () => {
-                try { await api.post('/auth/resend-verification') } catch {}
+                if (resendStatus === 'sending' || resendStatus === 'sent') return
+                setResendStatus('sending')
+                try {
+                  await api.post('/auth/resend-verification')
+                  setResendStatus('sent')
+                  setTimeout(() => setResendStatus('idle'), 5000)
+                } catch {
+                  setResendStatus('error')
+                  setTimeout(() => setResendStatus('idle'), 3000)
+                }
               }}
-              className="text-zinc-400 hover:text-white text-xs underline underline-offset-2 transition-colors"
+              disabled={resendStatus === 'sending' || resendStatus === 'sent'}
+              className="text-xs transition-colors disabled:cursor-default shrink-0"
+              style={{ color: resendStatus === 'sent' ? '#22c55e' : resendStatus === 'error' ? '#ef4444' : '#a1a1aa' }}
             >
-              Reenviar email
+              {resendStatus === 'idle' && 'Reenviar email'}
+              {resendStatus === 'sending' && 'Enviando...'}
+              {resendStatus === 'sent' && '✓ Enviado'}
+              {resendStatus === 'error' && 'Erro ao enviar'}
             </button>
             <button
               onClick={() => useAuthStore.getState().setEmailVerified(true)}
