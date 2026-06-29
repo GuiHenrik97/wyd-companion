@@ -7,8 +7,8 @@ import { Button } from '../components/ui/Button'
 
 export function Register() {
   const navigate = useNavigate()
-  const { setTokens, setUserId } = useAuthStore()
-  const [email, setEmail] = useState('')
+  const { setTokens, setUserId, setEmail } = useAuthStore()
+  const [emailInput, setEmailInput] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
@@ -18,10 +18,11 @@ export function Register() {
     setError('')
     setLoading(true)
     try {
-      await authApi.register(email, password)
-      const { data } = await authApi.login(email, password)
+      await authApi.register(emailInput, password)
+      const { data } = await authApi.login(emailInput, password)
       setTokens(data.accessToken, data.refreshToken)
       setUserId(data.userId)
+      setEmail(emailInput)
       navigate('/app/dashboard')
     } catch (err: any) {
       setError(err?.response?.data?.message || 'Erro ao criar conta')
@@ -52,8 +53,8 @@ export function Register() {
             label="Email"
             type="email"
             placeholder="seu@email.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={emailInput}
+            onChange={(e) => setEmailInput(e.target.value)}
             required
           />
           <Input
@@ -70,6 +71,11 @@ export function Register() {
             Criar conta
           </Button>
         </form>
+
+        <p className="text-zinc-600 text-xs text-center">
+          Ao criar conta você concorda com nossa{' '}
+          <a href="/privacidade" className="text-amber-500 hover:text-amber-400">Política de Privacidade</a>.
+        </p>
 
         <p className="text-center text-zinc-500 text-sm">
           Já tem conta?{' '}

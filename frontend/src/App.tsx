@@ -11,6 +11,8 @@ import { Timers } from './pages/app/Timers'
 import { Inventory } from './pages/app/Inventory'
 import { AudioPlayer } from './components/ui/AudioPlayer'
 import { Calculator } from './pages/Calculator'
+import { Privacy } from './pages/Privacy'
+import { Profile } from './pages/app/Profile'
 
 export default function App() {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated)
@@ -42,6 +44,10 @@ export default function App() {
             <ProtectedRoute><Inventory /></ProtectedRoute>
           } />
           <Route path="/calculadora" element={<Calculator />} />
+          <Route path="/privacidade" element={<Privacy />} />
+          <Route path="/app/perfil" element={
+            <ProtectedRoute><Profile /></ProtectedRoute>
+          } />
         </Routes>
         <footer className="mt-16 pt-8 border-t border-zinc-800 text-center flex flex-col gap-1 pb-8">
           <p className="text-zinc-600 text-xs">
@@ -53,6 +59,9 @@ export default function App() {
           <p className="text-zinc-600 text-xs mt-1">
             Este projeto não é afiliado à Raid Hut ou JoyImpact.
           </p>
+          <a href="/privacidade" className="text-amber-500 hover:text-amber-400 transition-colors text-xs">
+            Política de Privacidade
+          </a>
         </footer>
       </div>
       <AudioPlayer />
