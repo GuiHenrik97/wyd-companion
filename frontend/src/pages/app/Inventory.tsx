@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import { calculatorApi } from '../../api/calculator.api'
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -28,26 +28,31 @@ export function Inventory() {
 
   useEffect(() => {
     Promise.all([
-      calculatorApi.getProcesses(),
+      calculatorApi.getResources(),
       calculatorApi.getInventory(),
-    ]).then(([_, invRes]) => {
-      calculatorApi.getResources().then(({ data }) => {
-        setResources(data)
-        const inv: Record<string, number> = {}
-        invRes.data.forEach((item: any) => {
-          inv[item.resourceId] = item.quantity
-        })
-        setInventory(inv)
-        setLoading(false)
+    ]).then(([resRes, invRes]) => {
+      setResources(resRes.data)
+      const inv: Record<string, number> = {}
+      invRes.data.forEach((item: any) => {
+        inv[item.resourceId] = item.quantity
       })
+      setInventory(inv)
+      setLoading(false)
     })
   }, [])
 
-  const handleQuantityChange = useCallback(async (resourceId: string, quantity: number) => {
+  const timeouts = useRef<Record<string, ReturnType<typeof setTimeout>>>({})
+
+  const handleQuantityChange = useCallback((resourceId: string, quantity: number) => {
     setInventory(prev => ({ ...prev, [resourceId]: quantity }))
     setSaving(resourceId)
-    await calculatorApi.updateInventory(resourceId, quantity)
-    setSaving(null)
+
+    if (timeouts.current[resourceId]) clearTimeout(timeouts.current[resourceId])
+
+    timeouts.current[resourceId] = setTimeout(async () => {
+      await calculatorApi.updateInventory(resourceId, quantity)
+      setSaving(null)
+    }, 600)
   }, [])
 
   const grouped = CATEGORY_ORDER.reduce((acc, cat) => {
