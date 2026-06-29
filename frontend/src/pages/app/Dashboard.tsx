@@ -56,33 +56,33 @@ function CharacterCard({ char, onClick, onEdit, onDelete }: { char: any; onClick
         </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-3 gap-2 mt-4">
         <div className="bg-zinc-800/50 rounded-xl p-3">
           <p className="text-zinc-500 text-xs mb-2 uppercase tracking-wide">Selo</p>
           <div className="flex flex-col gap-1">
-            <p className="text-zinc-300 text-xs">
+            <p className="text-zinc-300 text-xs tabular-nums">
               {seal.class1Level || '—'}{seal.class2Level ? `/${seal.class2Level}` : ''}
             </p>
             {seal.mantleType && (
-              <p className="text-zinc-300 text-xs">
-                Capa: {seal.mantleType} {seal.mantleRefinement != null ? `+${seal.mantleRefinement}` : ''}{seal.mantleAdditional ? ` ${seal.mantleAdditional}` : ''}
+              <p className="text-zinc-400 text-xs truncate">
+                {seal.mantleType} {seal.mantleRefinement != null ? `+${seal.mantleRefinement}` : ''}
               </p>
             )}
-            <p className="text-zinc-400 text-xs">
-              L1: 11th {seal.class1Has11th ? <span className="text-amber-500">✓</span> : <span className="text-zinc-600">✗</span>}{' '}
-              12th {seal.class1Has12th ? <span className="text-amber-500">✓</span> : <span className="text-zinc-600">✗</span>}{' '}
-              Esp {seal.class1Spectral ? <span className="text-amber-500">✓</span> : <span className="text-zinc-600">✗</span>}{' '}
-              Con {seal.class1Concentration ? <span className="text-amber-500">✓</span> : <span className="text-zinc-600">✗</span>}{' '}
-              Res {seal.class1Resurrection ? <span className="text-amber-500">✓</span> : <span className="text-zinc-600">✗</span>}
-            </p>
+            <div className="flex flex-wrap gap-1 mt-1">
+              {seal.class1Has11th && <span className="text-amber-500 text-xs bg-amber-500/10 px-1 rounded">11th</span>}
+              {seal.class1Has12th && <span className="text-amber-500 text-xs bg-amber-500/10 px-1 rounded">12th</span>}
+              {seal.class1Spectral && <span className="text-amber-500 text-xs bg-amber-500/10 px-1 rounded">Esp</span>}
+              {seal.class1Concentration && <span className="text-amber-500 text-xs bg-amber-500/10 px-1 rounded">Con</span>}
+              {seal.class1Resurrection && <span className="text-amber-500 text-xs bg-amber-500/10 px-1 rounded">Res</span>}
+            </div>
             {seal.class2Type && (
-              <p className="text-zinc-400 text-xs">
-                L2: 11th {seal.class2Has11th ? <span className="text-amber-500">✓</span> : <span className="text-zinc-600">✗</span>}{' '}
-                12th {seal.class2Has12th ? <span className="text-amber-500">✓</span> : <span className="text-zinc-600">✗</span>}{' '}
-                Esp {seal.class2Spectral ? <span className="text-amber-500">✓</span> : <span className="text-zinc-600">✗</span>}{' '}
-                Con {seal.class2Concentration ? <span className="text-amber-500">✓</span> : <span className="text-zinc-600">✗</span>}{' '}
-                Res {seal.class2Resurrection ? <span className="text-amber-500">✓</span> : <span className="text-zinc-600">✗</span>}
-              </p>
+              <div className="flex flex-wrap gap-1">
+                {seal.class2Has11th && <span className="text-zinc-400 text-xs bg-zinc-700/50 px-1 rounded">11th</span>}
+                {seal.class2Has12th && <span className="text-zinc-400 text-xs bg-zinc-700/50 px-1 rounded">12th</span>}
+                {seal.class2Spectral && <span className="text-zinc-400 text-xs bg-zinc-700/50 px-1 rounded">Esp</span>}
+                {seal.class2Concentration && <span className="text-zinc-400 text-xs bg-zinc-700/50 px-1 rounded">Con</span>}
+                {seal.class2Resurrection && <span className="text-zinc-400 text-xs bg-zinc-700/50 px-1 rounded">Res</span>}
+              </div>
             )}
           </div>
         </div>

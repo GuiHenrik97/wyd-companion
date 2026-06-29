@@ -388,8 +388,13 @@ export function Calculator() {
         </div>
 
         {isAuthenticated && showInventory && (
-          <div className="w-72 shrink-0">
-            <div className="sticky top-6 bg-zinc-900 border border-zinc-800 rounded-xl p-4 max-h-[80vh] overflow-y-auto">
+          <>
+            <div
+              className="fixed inset-0 bg-black/50 z-40 md:hidden"
+              onClick={() => setShowInventory(false)}
+            />
+            <div className="fixed md:static inset-y-0 right-0 z-50 w-full md:w-72 md:shrink-0 flex flex-col md:block">
+            <div className="md:sticky md:top-6 bg-zinc-900 border border-zinc-800 rounded-none md:rounded-xl p-4 h-full md:max-h-[80vh] overflow-y-auto flex flex-col">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-white font-medium text-sm">Meu inventário</h2>
                 <button
@@ -433,14 +438,26 @@ export function Calculator() {
                     )
                   })}
                 {Object.values(inventory).every(v => v === 0) && (
-                  <p className="text-zinc-600 text-xs text-center py-4">
-                    Nenhum item no inventário ainda.{' '}
-                    <a href="/app/inventario" className="text-amber-500 hover:text-amber-400">Cadastrar</a>
-                  </p>
+                  <div className="flex flex-col items-center gap-3 py-8 text-center">
+                    <div className="w-12 h-12 rounded-full bg-zinc-800 flex items-center justify-center text-2xl">📦</div>
+                    <div>
+                      <p className="text-zinc-400 text-sm font-medium">Inventário vazio</p>
+                      <p className="text-zinc-600 text-xs mt-1 leading-relaxed">
+                        Cadastre seus recursos para ver quantas tentativas você tem disponíveis.
+                      </p>
+                    </div>
+                    <a
+                      href="/app/inventario"
+                      className="text-xs px-4 py-2 bg-amber-500 hover:bg-amber-400 text-black font-medium rounded-lg transition-colors"
+                    >
+                      Cadastrar primeiro item
+                    </a>
+                  </div>
                 )}
               </div>
             </div>
-          </div>
+            </div>
+          </>
         )}
       </div>
 
