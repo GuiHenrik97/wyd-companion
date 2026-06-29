@@ -19,7 +19,6 @@ async function main() {
         slug: 'po-ori',
         category: 'POWDER',
         mobile: true,
-        obtainHint: 'Drop de mobs, loja',
       },
     }),
     prisma.resource.upsert({
@@ -30,7 +29,6 @@ async function main() {
         slug: 'pl',
         category: 'POWDER',
         mobile: true,
-        obtainHint: 'Drop de mobs, eventos, quests',
       },
     }),
     prisma.resource.upsert({
@@ -41,7 +39,6 @@ async function main() {
         slug: 'lac-100',
         category: 'POWDER',
         mobile: true,
-        obtainHint: 'Loja NP, eventos',
       },
     }),
 
@@ -54,7 +51,6 @@ async function main() {
         slug: 'crystal-bahamut',
         category: 'CRYSTAL',
         mobile: false,
-        obtainHint: 'Dragon Field, Quest Bahamut Fury',
       },
     }),
     prisma.resource.upsert({
@@ -65,7 +61,6 @@ async function main() {
         slug: 'crystal-amunra',
         category: 'CRYSTAL',
         mobile: false,
-        obtainHint: 'Dragon Field, eventos',
       },
     }),
     prisma.resource.upsert({
@@ -76,7 +71,6 @@ async function main() {
         slug: 'anubis-crystal',
         category: 'CRYSTAL',
         mobile: true,
-        obtainHint: 'Tesouro Anubis, Kefra, IceQueenVerid',
       },
     }),
     prisma.resource.upsert({
@@ -87,7 +81,6 @@ async function main() {
         slug: 'loki-crystal',
         category: 'CRYSTAL',
         mobile: false,
-        obtainHint: 'Lapidação de Pedra Amunra',
       },
     }),
     prisma.resource.upsert({
@@ -98,7 +91,6 @@ async function main() {
         slug: 'primordial-crystal',
         category: 'CRYSTAL',
         mobile: false,
-        obtainHint: 'NPC Zaid Naib, Noatun',
       },
     }),
 
@@ -111,7 +103,6 @@ async function main() {
         slug: 'joia-escuridao',
         category: 'STONE',
         mobile: true,
-        obtainHint: 'Drop, eventos',
       },
     }),
     prisma.resource.upsert({
@@ -122,7 +113,6 @@ async function main() {
         slug: 'pedra-lunar',
         category: 'STONE',
         mobile: true,
-        obtainHint: 'Drop, eventos',
       },
     }),
     prisma.resource.upsert({
@@ -133,7 +123,6 @@ async function main() {
         slug: 'pedra-imortalidade',
         category: 'STONE',
         mobile: true,
-        obtainHint: 'Eventos, loja NP',
       },
     }),
     prisma.resource.upsert({
@@ -144,7 +133,6 @@ async function main() {
         slug: 'pedra-furia',
         category: 'STONE',
         mobile: true,
-        obtainHint: 'Eventos, quests',
       },
     }),
     prisma.resource.upsert({
@@ -155,7 +143,6 @@ async function main() {
         slug: 'kit-secretas',
         category: 'STONE',
         mobile: true,
-        obtainHint: 'Drop, eventos',
       },
     }),
 
@@ -168,7 +155,6 @@ async function main() {
         slug: 'emblema-valk',
         category: 'EMBLEM',
         mobile: true,
-        obtainHint: 'Arena Real, eventos',
       },
     }),
     prisma.resource.upsert({
@@ -179,7 +165,6 @@ async function main() {
         slug: 'emblema-valk-9',
         category: 'EMBLEM',
         mobile: true,
-        obtainHint: 'Refinação de Emblema da Valkyria',
       },
     }),
 
@@ -192,7 +177,6 @@ async function main() {
         slug: 'medalha-vermelha',
         category: 'MEDAL',
         mobile: false,
-        obtainHint: 'Arena Real, eventos',
       },
     }),
     prisma.resource.upsert({
@@ -203,7 +187,6 @@ async function main() {
         slug: 'medalha-roxa',
         category: 'MEDAL',
         mobile: false,
-        obtainHint: 'Arena, eventos',
       },
     }),
     prisma.resource.upsert({
@@ -214,7 +197,6 @@ async function main() {
         slug: 'medalha-dourada',
         category: 'MEDAL',
         mobile: false,
-        obtainHint: 'Arena, eventos',
       },
     }),
 
@@ -227,7 +209,6 @@ async function main() {
         slug: 'rd-scale',
         category: 'DRAGON',
         mobile: false,
-        obtainHint: 'Dragon Field',
       },
     }),
     prisma.resource.upsert({
@@ -238,7 +219,6 @@ async function main() {
         slug: 'dragon-soul',
         category: 'DRAGON',
         mobile: false,
-        obtainHint: 'Dragon Field, Quest Bahamut Fury',
       },
     }),
     prisma.resource.upsert({
@@ -249,7 +229,6 @@ async function main() {
         slug: 'dragon-essence',
         category: 'DRAGON',
         mobile: false,
-        obtainHint: 'NPC Anubis — Fire Scale + Dragon Heart + Flame Core',
       },
     }),
 
@@ -262,7 +241,6 @@ async function main() {
         slug: 'bahamut-horn',
         category: 'BAHAMUT',
         mobile: false,
-        obtainHint: 'Quest Bahamut Fury, Dragon Field',
       },
     }),
     prisma.resource.upsert({
@@ -273,7 +251,6 @@ async function main() {
         slug: 'bahamut-rune',
         category: 'BAHAMUT',
         mobile: false,
-        obtainHint: 'Quest Bahamut Fury, Dragon Field',
       },
     }),
     prisma.resource.upsert({
@@ -284,7 +261,6 @@ async function main() {
         slug: 'bahamut-soul',
         category: 'BAHAMUT',
         mobile: false,
-        obtainHint: 'NPC Alyndra — composição',
       },
     }),
     prisma.resource.upsert({
@@ -295,7 +271,6 @@ async function main() {
         slug: 'bahamut-blood',
         category: 'BAHAMUT',
         mobile: false,
-        obtainHint: 'Quest Bahamut Fury',
       },
     }),
     prisma.resource.upsert({
@@ -306,7 +281,6 @@ async function main() {
         slug: 'bahamut-simbol',
         category: 'BAHAMUT',
         mobile: false,
-        obtainHint: 'Dragon Field, eventos',
       },
     }),
     prisma.resource.upsert({
@@ -317,7 +291,6 @@ async function main() {
         slug: 'bahamut-essence',
         category: 'BAHAMUT',
         mobile: false,
-        obtainHint: 'NPC Torvald — composição',
       },
     }),
     prisma.resource.upsert({
@@ -328,7 +301,6 @@ async function main() {
         slug: 'ancient-relic',
         category: 'BAHAMUT',
         mobile: false,
-        obtainHint: 'NPC Zaid Naib — Eye of Wisdom ou 2x Primordial Crystal',
       },
     }),
 
@@ -341,7 +313,6 @@ async function main() {
         slug: 'lagrima-azul',
         category: 'TEAR',
         mobile: false,
-        obtainHint: 'Falha na refinação de Brinco Bahamut',
       },
     }),
     prisma.resource.upsert({
@@ -352,7 +323,6 @@ async function main() {
         slug: 'lagrima-amarela',
         category: 'TEAR',
         mobile: false,
-        obtainHint: 'Falha na refinação de Colar/Cinto Bahamut',
       },
     }),
     prisma.resource.upsert({
@@ -363,7 +333,6 @@ async function main() {
         slug: 'lagrima-vermelha',
         category: 'TEAR',
         mobile: false,
-        obtainHint: 'Falha no upgrade de Tier de acessório Bahamut',
       },
     }),
     prisma.resource.upsert({
@@ -374,7 +343,6 @@ async function main() {
         slug: 'lagrima-lucky',
         category: 'TEAR',
         mobile: false,
-        obtainHint: 'NPC Torvald — conversão de outras lágrimas',
       },
     }),
 
@@ -387,7 +355,6 @@ async function main() {
         slug: 'cursed-hat-black',
         category: 'CYTHERA',
         mobile: true,
-        obtainHint: 'Drop de mobs de alto nível',
       },
     }),
     prisma.resource.upsert({
@@ -398,7 +365,6 @@ async function main() {
         slug: 'barra-prata',
         category: 'CYTHERA',
         mobile: true,
-        obtainHint: 'Loja, eventos',
       },
     }),
     prisma.resource.upsert({
@@ -409,7 +375,6 @@ async function main() {
         slug: 'folha-mandragora',
         category: 'CYTHERA',
         mobile: true,
-        obtainHint: 'Loja NP, eventos',
       },
     }),
     prisma.resource.upsert({
@@ -420,7 +385,6 @@ async function main() {
         slug: 'amago-dl',
         category: 'CYTHERA',
         mobile: true,
-        obtainHint: 'Drop de Dragão Lendário',
       },
     }),
     prisma.resource.upsert({
@@ -431,7 +395,6 @@ async function main() {
         slug: 'royal-arena-coupon',
         category: 'COIN',
         mobile: false,
-        obtainHint: 'Arena Real',
       },
     }),
 
@@ -444,7 +407,6 @@ async function main() {
         slug: 'selo-magico',
         category: 'MANTLE',
         mobile: true,
-        obtainHint: 'Drop, quests',
       },
     }),
     prisma.resource.upsert({
@@ -455,7 +417,6 @@ async function main() {
         slug: 'pergaminho-selado',
         category: 'MANTLE',
         mobile: true,
-        obtainHint: 'Drop, quests',
       },
     }),
     prisma.resource.upsert({
@@ -466,7 +427,6 @@ async function main() {
         slug: 'ruby',
         category: 'MANTLE',
         mobile: false,
-        obtainHint: 'Loja NP, eventos',
       },
     }),
 
@@ -479,7 +439,6 @@ async function main() {
         slug: 'amago-tf-0',
         category: 'MOUNT',
         mobile: true,
-        obtainHint: 'Drop de mobs',
       },
     }),
     prisma.resource.upsert({
@@ -490,7 +449,6 @@ async function main() {
         slug: 'amago-dv-0',
         category: 'MOUNT',
         mobile: true,
-        obtainHint: 'Drop de mobs',
       },
     }),
     prisma.resource.upsert({
@@ -501,7 +459,6 @@ async function main() {
         slug: 'amago-dl-0',
         category: 'MOUNT',
         mobile: true,
-        obtainHint: 'Drop de mobs',
       },
     }),
     prisma.resource.upsert({
@@ -512,7 +469,6 @@ async function main() {
         slug: 'amago-tf-10',
         category: 'MOUNT',
         mobile: false,
-        obtainHint: 'NPC MountKeeper — composição',
       },
     }),
     prisma.resource.upsert({
@@ -523,7 +479,6 @@ async function main() {
         slug: 'amago-dv-10',
         category: 'MOUNT',
         mobile: false,
-        obtainHint: 'NPC MountKeeper — composição',
       },
     }),
     prisma.resource.upsert({
@@ -534,7 +489,6 @@ async function main() {
         slug: 'amago-dl-10',
         category: 'MOUNT',
         mobile: false,
-        obtainHint: 'NPC MountKeeper — composição',
       },
     }),
     prisma.resource.upsert({
@@ -545,7 +499,6 @@ async function main() {
         slug: 'amago-jackal-0',
         category: 'MOUNT',
         mobile: true,
-        obtainHint: 'NPC MountKeeper — Ovo Vermelho + Ovo Azul',
       },
     }),
     prisma.resource.upsert({
@@ -556,7 +509,6 @@ async function main() {
         slug: 'amago-jackal-10',
         category: 'MOUNT',
         mobile: false,
-        obtainHint: 'NPC MountKeeper — composição',
       },
     }),
     prisma.resource.upsert({
@@ -567,7 +519,6 @@ async function main() {
         slug: 'ovo-azul',
         category: 'MOUNT',
         mobile: false,
-        obtainHint: 'SandLich, IceLich, Kefra, NPC MountKeeper',
       },
     }),
     prisma.resource.upsert({
@@ -578,7 +529,6 @@ async function main() {
         slug: 'ovo-amarelo',
         category: 'MOUNT',
         mobile: false,
-        obtainHint: 'SandLich, IceLich, Kefra, NPC MountKeeper',
       },
     }),
     prisma.resource.upsert({
@@ -589,7 +539,6 @@ async function main() {
         slug: 'ovo-vermelho',
         category: 'MOUNT',
         mobile: false,
-        obtainHint: 'NPC MountKeeper — composição',
       },
     }),
     prisma.resource.upsert({
@@ -600,7 +549,6 @@ async function main() {
         slug: 'soul-fragment',
         category: 'MOUNT',
         mobile: true,
-        obtainHint: 'Drop de bosses',
       },
     }),
     prisma.resource.upsert({
@@ -611,7 +559,6 @@ async function main() {
         slug: 'jackal-armor',
         category: 'MOUNT',
         mobile: false,
-        obtainHint: 'NPC MountKeeper — composição de escudos',
       },
     }),
 
@@ -624,7 +571,6 @@ async function main() {
         slug: 'gold',
         category: 'COIN',
         mobile: true,
-        obtainHint: 'Farm, comércio',
       },
     }),
     prisma.resource.upsert({
@@ -635,7 +581,6 @@ async function main() {
         slug: 'guild-coin',
         category: 'COIN',
         mobile: false,
-        obtainHint: 'Eventos de guild',
       },
     }),
     prisma.resource.upsert({
@@ -646,7 +591,6 @@ async function main() {
         slug: 'wyden-coin',
         category: 'COIN',
         mobile: true,
-        obtainHint: 'Loja NP, eventos',
       },
     }),
     prisma.resource.upsert({
@@ -657,7 +601,6 @@ async function main() {
         slug: 'hunting-loot',
         category: 'OTHER',
         mobile: false,
-        obtainHint: 'Quest Caçador de Espólios',
       },
     }),
     prisma.resource.upsert({
@@ -668,7 +611,6 @@ async function main() {
         slug: 'mount-growth-stabilizer',
         category: 'MOUNT',
         mobile: true,
-        obtainHint: 'NPC Ehre — Selo Mágico + 20 PL',
       },
     }),
     prisma.resource.upsert({
@@ -679,7 +621,6 @@ async function main() {
         slug: 'relic-protection',
         category: 'OTHER',
         mobile: false,
-        obtainHint: 'NPC Anubis, Noatun',
       },
     }),
     prisma.resource.upsert({
@@ -690,7 +631,6 @@ async function main() {
         slug: 'relic-power',
         category: 'OTHER',
         mobile: false,
-        obtainHint: 'NPC Anubis, Noatun',
       },
     }),
     prisma.resource.upsert({
@@ -701,7 +641,6 @@ async function main() {
         slug: 'funeral-scroll',
         category: 'OTHER',
         mobile: false,
-        obtainHint: 'Loja NP, eventos',
       },
     }),
     prisma.resource.upsert({
@@ -712,7 +651,6 @@ async function main() {
         slug: 'cupom-bonus',
         category: 'OTHER',
         mobile: false,
-        obtainHint: 'Eventos',
       },
     }),
     prisma.resource.upsert({
@@ -723,7 +661,6 @@ async function main() {
         slug: 'eye-of-wisdom',
         category: 'OTHER',
         mobile: false,
-        obtainHint: 'Quest Ruínas Profanadas (em breve)',
       },
     }),
     prisma.resource.upsert({
@@ -734,7 +671,6 @@ async function main() {
         slug: 'essence-0',
         category: 'OTHER',
         mobile: true,
-        obtainHint: 'Dragon Field — 2º andar',
       },
     }),
     prisma.resource.upsert({
@@ -745,7 +681,6 @@ async function main() {
         slug: 'essence-9',
         category: 'OTHER',
         mobile: true,
-        obtainHint: 'Refinação de Essência +0',
       },
     }),
     prisma.resource.upsert({
@@ -756,7 +691,6 @@ async function main() {
         slug: 'refin-abencoa',
         category: 'OTHER',
         mobile: true,
-        obtainHint: 'NPC Refinador — refinações +1 a +9 de qualquer item',
       },
     }),
     prisma.resource.upsert({
@@ -767,7 +701,6 @@ async function main() {
         slug: 'mark-bahamut',
         category: 'BAHAMUT',
         mobile: true,
-        obtainHint: 'Dragon Field, eventos',
       },
     }),
     prisma.resource.upsert({
@@ -778,7 +711,6 @@ async function main() {
         slug: 'celestial-part',
         category: 'OTHER',
         mobile: false,
-        obtainHint: 'Criação de item Celestial',
       },
     }),
   ]);

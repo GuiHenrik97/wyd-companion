@@ -53,9 +53,22 @@ export function Inventory() {
       setMatchedResources(new Set())
       return
     }
-    const matched = processes.filter(p => norm(p.name).includes(norm(processSearch)))
+    const norm = (s: string) =>
+      s.toLowerCase()
+        .normalize('NFD')
+        .replace(/[̀-ͯ]/g, '')
+
+    const searchTerms = norm(processSearch).split(/\s+/).filter(Boolean)
+
+    const matched = processes.filter(p => {
+      const normalizedName = norm(p.name)
+      return searchTerms.every(term => normalizedName.includes(term))
+    })
+
     const resourceIds = new Set<string>()
-    matched.forEach(p => p.resources?.forEach((pr: any) => resourceIds.add(pr.resource?.id ?? pr.resourceId)))
+    matched.forEach(p =>
+      p.resources?.forEach((pr: any) => resourceIds.add(pr.resource?.id ?? pr.resourceId))
+    )
     setMatchedResources(resourceIds)
   }, [processSearch, processes])
 
