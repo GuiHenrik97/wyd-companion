@@ -748,7 +748,7 @@ async function main() {
       ]
     },
     {
-      name: 'Refinação Bahamut Mantle +0→+15',
+      name: 'Refinação Bahamut Mantle +1→+15',
       category: 'MANTLE',
       notes: 'Mesmos materiais da criação. Bahamut Soul não é consumido em falha.',
       resources: [
