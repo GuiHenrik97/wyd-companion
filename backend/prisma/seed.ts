@@ -13,7 +13,7 @@ async function main() {
     // POWDER
     prisma.resource.upsert({
       where: { slug: 'po-ori' },
-      update: {},
+      update: { name: 'Poeira de Ori', category: 'POWDER', mobile: true },
       create: {
         name: 'Poeira de Ori',
         slug: 'po-ori',
@@ -23,7 +23,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'pl' },
-      update: {},
+      update: { name: 'Poeira de Lactolerium', category: 'POWDER', mobile: true },
       create: {
         name: 'Poeira de Lactolerium',
         slug: 'pl',
@@ -33,7 +33,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'lac-100' },
-      update: {},
+      update: { name: 'Lactolerium 100%', category: 'POWDER', mobile: true },
       create: {
         name: 'Lactolerium 100%',
         slug: 'lac-100',
@@ -45,7 +45,7 @@ async function main() {
     // CRYSTAL
     prisma.resource.upsert({
       where: { slug: 'crystal-bahamut' },
-      update: {},
+      update: { name: 'Crystal Bahamut', category: 'CRYSTAL', mobile: false },
       create: {
         name: 'Crystal Bahamut',
         slug: 'crystal-bahamut',
@@ -55,7 +55,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'crystal-amunra' },
-      update: {},
+      update: { name: 'Crystal Amunra', category: 'CRYSTAL', mobile: false },
       create: {
         name: 'Crystal Amunra',
         slug: 'crystal-amunra',
@@ -65,7 +65,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'anubis-crystal' },
-      update: {},
+      update: { name: 'Anubis Crystal', category: 'CRYSTAL', mobile: true },
       create: {
         name: 'Anubis Crystal',
         slug: 'anubis-crystal',
@@ -75,7 +75,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'loki-crystal' },
-      update: {},
+      update: { name: 'Loki Crystal (Amunra)', category: 'CRYSTAL', mobile: false },
       create: {
         name: 'Loki Crystal (Amunra)',
         slug: 'loki-crystal',
@@ -85,7 +85,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'primordial-crystal' },
-      update: {},
+      update: { name: 'Primordial Crystal', category: 'CRYSTAL', mobile: false },
       create: {
         name: 'Primordial Crystal',
         slug: 'primordial-crystal',
@@ -97,7 +97,7 @@ async function main() {
     // STONE
     prisma.resource.upsert({
       where: { slug: 'joia-escuridao' },
-      update: {},
+      update: { name: 'Joia da Escuridão', category: 'STONE', mobile: true },
       create: {
         name: 'Joia da Escuridão',
         slug: 'joia-escuridao',
@@ -107,7 +107,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'pedra-lunar' },
-      update: {},
+      update: { name: 'Pedra Lunar', category: 'STONE', mobile: true },
       create: {
         name: 'Pedra Lunar',
         slug: 'pedra-lunar',
@@ -117,7 +117,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'pedra-imortalidade' },
-      update: {},
+      update: { name: 'Pedra da Imortalidade', category: 'STONE', mobile: true },
       create: {
         name: 'Pedra da Imortalidade',
         slug: 'pedra-imortalidade',
@@ -127,7 +127,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'pedra-furia' },
-      update: {},
+      update: { name: 'Pedra da Fúria', category: 'STONE', mobile: true },
       create: {
         name: 'Pedra da Fúria',
         slug: 'pedra-furia',
@@ -137,7 +137,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'kit-secretas' },
-      update: {},
+      update: { name: 'Kit Secretas (Sol/Água/Terra/Vento)', category: 'STONE', mobile: true },
       create: {
         name: 'Kit Secretas (Sol/Água/Terra/Vento)',
         slug: 'kit-secretas',
@@ -149,7 +149,7 @@ async function main() {
     // EMBLEM
     prisma.resource.upsert({
       where: { slug: 'emblema-valk' },
-      update: {},
+      update: { name: 'Emblema da Valkyria', category: 'EMBLEM', mobile: true },
       create: {
         name: 'Emblema da Valkyria',
         slug: 'emblema-valk',
@@ -159,7 +159,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'emblema-valk-9' },
-      update: {},
+      update: { name: 'Emblema da Valkyria +9', category: 'EMBLEM', mobile: true },
       create: {
         name: 'Emblema da Valkyria +9',
         slug: 'emblema-valk-9',
@@ -171,7 +171,7 @@ async function main() {
     // MEDAL
     prisma.resource.upsert({
       where: { slug: 'medalha-vermelha' },
-      update: {},
+      update: { name: 'Medalha Vermelha', category: 'MEDAL', mobile: false },
       create: {
         name: 'Medalha Vermelha',
         slug: 'medalha-vermelha',
@@ -181,7 +181,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'medalha-roxa' },
-      update: {},
+      update: { name: 'Medalha Roxa', category: 'MEDAL', mobile: false },
       create: {
         name: 'Medalha Roxa',
         slug: 'medalha-roxa',
@@ -191,7 +191,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'medalha-dourada' },
-      update: {},
+      update: { name: 'Medalha Dourada', category: 'MEDAL', mobile: false },
       create: {
         name: 'Medalha Dourada',
         slug: 'medalha-dourada',
@@ -203,7 +203,7 @@ async function main() {
     // DRAGON
     prisma.resource.upsert({
       where: { slug: 'rd-scale' },
-      update: {},
+      update: { name: 'RD Scale', category: 'DRAGON', mobile: false },
       create: {
         name: 'RD Scale',
         slug: 'rd-scale',
@@ -213,7 +213,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'dragon-soul' },
-      update: {},
+      update: { name: 'Dragon Soul', category: 'DRAGON', mobile: false },
       create: {
         name: 'Dragon Soul',
         slug: 'dragon-soul',
@@ -223,7 +223,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'dragon-essence' },
-      update: {},
+      update: { name: 'Dragon Essence', category: 'DRAGON', mobile: false },
       create: {
         name: 'Dragon Essence',
         slug: 'dragon-essence',
@@ -235,7 +235,7 @@ async function main() {
     // BAHAMUT
     prisma.resource.upsert({
       where: { slug: 'bahamut-horn' },
-      update: {},
+      update: { name: 'Bahamut Horn', category: 'BAHAMUT', mobile: false },
       create: {
         name: 'Bahamut Horn',
         slug: 'bahamut-horn',
@@ -245,7 +245,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'bahamut-rune' },
-      update: {},
+      update: { name: 'Bahamut Rune', category: 'BAHAMUT', mobile: false },
       create: {
         name: 'Bahamut Rune',
         slug: 'bahamut-rune',
@@ -255,7 +255,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'bahamut-soul' },
-      update: {},
+      update: { name: 'Bahamut Soul', category: 'BAHAMUT', mobile: false },
       create: {
         name: 'Bahamut Soul',
         slug: 'bahamut-soul',
@@ -265,7 +265,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'bahamut-blood' },
-      update: {},
+      update: { name: 'Bahamut Blood', category: 'BAHAMUT', mobile: false },
       create: {
         name: 'Bahamut Blood',
         slug: 'bahamut-blood',
@@ -275,7 +275,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'bahamut-simbol' },
-      update: {},
+      update: { name: 'Bahamut Simbol', category: 'BAHAMUT', mobile: false },
       create: {
         name: 'Bahamut Simbol',
         slug: 'bahamut-simbol',
@@ -285,7 +285,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'bahamut-essence' },
-      update: {},
+      update: { name: 'Bahamut Essence', category: 'BAHAMUT', mobile: false },
       create: {
         name: 'Bahamut Essence',
         slug: 'bahamut-essence',
@@ -295,7 +295,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'ancient-relic' },
-      update: {},
+      update: { name: 'Ancient Relic', category: 'BAHAMUT', mobile: false },
       create: {
         name: 'Ancient Relic',
         slug: 'ancient-relic',
@@ -307,7 +307,7 @@ async function main() {
     // TEAR
     prisma.resource.upsert({
       where: { slug: 'lagrima-azul' },
-      update: {},
+      update: { name: 'Lágrima Azul (Sadness)', category: 'TEAR', mobile: false },
       create: {
         name: 'Lágrima Azul (Sadness)',
         slug: 'lagrima-azul',
@@ -317,7 +317,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'lagrima-amarela' },
-      update: {},
+      update: { name: 'Lágrima Amarela (Happiness)', category: 'TEAR', mobile: false },
       create: {
         name: 'Lágrima Amarela (Happiness)',
         slug: 'lagrima-amarela',
@@ -327,7 +327,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'lagrima-vermelha' },
-      update: {},
+      update: { name: 'Lágrima Vermelha (Rage)', category: 'TEAR', mobile: false },
       create: {
         name: 'Lágrima Vermelha (Rage)',
         slug: 'lagrima-vermelha',
@@ -337,7 +337,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'lagrima-lucky' },
-      update: {},
+      update: { name: 'Lágrima Verde (Lucky)', category: 'TEAR', mobile: false },
       create: {
         name: 'Lágrima Verde (Lucky)',
         slug: 'lagrima-lucky',
@@ -349,7 +349,7 @@ async function main() {
     // CYTHERA
     prisma.resource.upsert({
       where: { slug: 'cursed-hat-black' },
-      update: {},
+      update: { name: 'Cursed Hat (Black)', category: 'CYTHERA', mobile: true },
       create: {
         name: 'Cursed Hat (Black)',
         slug: 'cursed-hat-black',
@@ -359,7 +359,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'barra-prata' },
-      update: {},
+      update: { name: 'Barra de Prata (1Bi)', category: 'CYTHERA', mobile: true },
       create: {
         name: 'Barra de Prata (1Bi)',
         slug: 'barra-prata',
@@ -369,7 +369,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'folha-mandragora' },
-      update: {},
+      update: { name: 'Folha de Mandrágora', category: 'CYTHERA', mobile: true },
       create: {
         name: 'Folha de Mandrágora',
         slug: 'folha-mandragora',
@@ -379,7 +379,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'amago-dl' },
-      update: {},
+      update: { name: 'Âmago de Dragão Lendário', category: 'MOUNT', mobile: true },
       create: {
         name: 'Âmago de Dragão Lendário',
         slug: 'amago-dl',
@@ -389,7 +389,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'royal-arena-coupon' },
-      update: {},
+      update: { name: 'Royal Arena Coupon', category: 'COIN', mobile: false },
       create: {
         name: 'Royal Arena Coupon',
         slug: 'royal-arena-coupon',
@@ -401,7 +401,7 @@ async function main() {
     // MANTLE
     prisma.resource.upsert({
       where: { slug: 'selo-magico' },
-      update: {},
+      update: { name: 'Selo Mágico', category: 'MANTLE', mobile: true },
       create: {
         name: 'Selo Mágico',
         slug: 'selo-magico',
@@ -411,7 +411,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'pergaminho-selado' },
-      update: {},
+      update: { name: 'Pergaminho Selado', category: 'MANTLE', mobile: true },
       create: {
         name: 'Pergaminho Selado',
         slug: 'pergaminho-selado',
@@ -421,7 +421,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'ruby' },
-      update: {},
+      update: { name: 'Ruby', category: 'COIN', mobile: false },
       create: {
         name: 'Ruby',
         slug: 'ruby',
@@ -433,7 +433,7 @@ async function main() {
     // MOUNT
     prisma.resource.upsert({
       where: { slug: 'amago-tf-0' },
-      update: {},
+      update: { name: 'Âmago Tigre de Fogo +0', category: 'MOUNT', mobile: true },
       create: {
         name: 'Âmago Tigre de Fogo +0',
         slug: 'amago-tf-0',
@@ -443,7 +443,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'amago-dv-0' },
-      update: {},
+      update: { name: 'Âmago Dragão Vermelho +0', category: 'MOUNT', mobile: true },
       create: {
         name: 'Âmago Dragão Vermelho +0',
         slug: 'amago-dv-0',
@@ -453,7 +453,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'amago-dl-0' },
-      update: {},
+      update: { name: 'Âmago Dragão Lendário +0', category: 'MOUNT', mobile: true },
       create: {
         name: 'Âmago Dragão Lendário +0',
         slug: 'amago-dl-0',
@@ -463,7 +463,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'amago-tf-10' },
-      update: {},
+      update: { name: 'Âmago Tigre de Fogo +10', category: 'MOUNT', mobile: false },
       create: {
         name: 'Âmago Tigre de Fogo +10',
         slug: 'amago-tf-10',
@@ -473,7 +473,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'amago-dv-10' },
-      update: {},
+      update: { name: 'Âmago Dragão Vermelho +10', category: 'MOUNT', mobile: false },
       create: {
         name: 'Âmago Dragão Vermelho +10',
         slug: 'amago-dv-10',
@@ -483,7 +483,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'amago-dl-10' },
-      update: {},
+      update: { name: 'Âmago Dragão Lendário +10', category: 'MOUNT', mobile: false },
       create: {
         name: 'Âmago Dragão Lendário +10',
         slug: 'amago-dl-10',
@@ -493,7 +493,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'amago-jackal-0' },
-      update: {},
+      update: { name: 'Âmago de Jackal +0', category: 'MOUNT', mobile: true },
       create: {
         name: 'Âmago de Jackal +0',
         slug: 'amago-jackal-0',
@@ -503,7 +503,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'amago-jackal-10' },
-      update: {},
+      update: { name: 'Âmago de Jackal +10', category: 'MOUNT', mobile: false },
       create: {
         name: 'Âmago de Jackal +10',
         slug: 'amago-jackal-10',
@@ -513,7 +513,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'ovo-azul' },
-      update: {},
+      update: { name: 'Ovo Azul', category: 'MOUNT', mobile: false },
       create: {
         name: 'Ovo Azul',
         slug: 'ovo-azul',
@@ -523,7 +523,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'ovo-amarelo' },
-      update: {},
+      update: { name: 'Ovo Amarelo', category: 'MOUNT', mobile: false },
       create: {
         name: 'Ovo Amarelo',
         slug: 'ovo-amarelo',
@@ -533,7 +533,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'ovo-vermelho' },
-      update: {},
+      update: { name: 'Ovo Vermelho', category: 'MOUNT', mobile: false },
       create: {
         name: 'Ovo Vermelho',
         slug: 'ovo-vermelho',
@@ -543,7 +543,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'soul-fragment' },
-      update: {},
+      update: { name: 'Soul Fragment', category: 'OTHER', mobile: true },
       create: {
         name: 'Soul Fragment',
         slug: 'soul-fragment',
@@ -553,7 +553,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'jackal-armor' },
-      update: {},
+      update: { name: 'Jackal Armor', category: 'MOUNT', mobile: false },
       create: {
         name: 'Jackal Armor',
         slug: 'jackal-armor',
@@ -565,7 +565,7 @@ async function main() {
     // COIN / OTHER
     prisma.resource.upsert({
       where: { slug: 'gold' },
-      update: {},
+      update: { name: 'Gold (kk)', category: 'COIN', mobile: true },
       create: {
         name: 'Gold (kk)',
         slug: 'gold',
@@ -575,7 +575,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'guild-coin' },
-      update: {},
+      update: { name: 'Guild Coin', category: 'COIN', mobile: false },
       create: {
         name: 'Guild Coin',
         slug: 'guild-coin',
@@ -585,7 +585,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'wyden-coin' },
-      update: {},
+      update: { name: 'Wyden Coin (moeda NP)', category: 'COIN', mobile: true },
       create: {
         name: 'Wyden Coin (moeda NP)',
         slug: 'wyden-coin',
@@ -595,7 +595,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'hunting-loot' },
-      update: {},
+      update: { name: 'Hunting Loot', category: 'OTHER', mobile: false },
       create: {
         name: 'Hunting Loot',
         slug: 'hunting-loot',
@@ -605,7 +605,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'mount-growth-stabilizer' },
-      update: {},
+      update: { name: 'Mount Growth Stabilizer', category: 'MOUNT', mobile: true },
       create: {
         name: 'Mount Growth Stabilizer',
         slug: 'mount-growth-stabilizer',
@@ -615,7 +615,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'relic-protection' },
-      update: {},
+      update: { name: 'Relic of Protection (Selada)', category: 'OTHER', mobile: false },
       create: {
         name: 'Relic of Protection (Selada)',
         slug: 'relic-protection',
@@ -625,7 +625,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'relic-power' },
-      update: {},
+      update: { name: 'Relic of Power (Selada)', category: 'OTHER', mobile: false },
       create: {
         name: 'Relic of Power (Selada)',
         slug: 'relic-power',
@@ -635,7 +635,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'funeral-scroll' },
-      update: {},
+      update: { name: 'Funeral Scroll', category: 'OTHER', mobile: false },
       create: {
         name: 'Funeral Scroll',
         slug: 'funeral-scroll',
@@ -645,7 +645,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'cupom-bonus' },
-      update: {},
+      update: { name: 'Cupom de Bônus', category: 'COIN', mobile: false },
       create: {
         name: 'Cupom de Bônus',
         slug: 'cupom-bonus',
@@ -655,7 +655,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'eye-of-wisdom' },
-      update: {},
+      update: { name: 'Eye of Wisdom', category: 'OTHER', mobile: false },
       create: {
         name: 'Eye of Wisdom',
         slug: 'eye-of-wisdom',
@@ -665,7 +665,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'essence-0' },
-      update: {},
+      update: { name: 'Essência +0', category: 'OTHER', mobile: true },
       create: {
         name: 'Essência +0',
         slug: 'essence-0',
@@ -675,7 +675,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'essence-9' },
-      update: {},
+      update: { name: 'Essência +9', category: 'OTHER', mobile: true },
       create: {
         name: 'Essência +9',
         slug: 'essence-9',
@@ -685,7 +685,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'refin-abencoa' },
-      update: {},
+      update: { name: 'Refinação Abençoada', category: 'OTHER', mobile: true },
       create: {
         name: 'Refinação Abençoada',
         slug: 'refin-abencoa',
@@ -695,7 +695,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'mark-bahamut' },
-      update: {},
+      update: { name: 'Mark of Bahamut', category: 'BAHAMUT', mobile: true },
       create: {
         name: 'Mark of Bahamut',
         slug: 'mark-bahamut',
@@ -705,7 +705,7 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'celestial-part' },
-      update: {},
+      update: { name: 'Parte Celestial +9 (equivalente)', category: 'OTHER', mobile: false },
       create: {
         name: 'Parte Celestial +9 (equivalente)',
         slug: 'celestial-part',
@@ -713,16 +713,16 @@ async function main() {
         mobile: false,
       },
     }),
-    prisma.resource.upsert({ where: { slug: 'amago-dl-9' }, update: {}, create: { name: 'Âmago de Dragão Lendário +9', slug: 'amago-dl-9', category: 'MOUNT', mobile: true } }),
-    prisma.resource.upsert({ where: { slug: 'amago-dv-9' }, update: {}, create: { name: 'Âmago de Dragão Vermelho +9', slug: 'amago-dv-9', category: 'MOUNT', mobile: true } }),
-    prisma.resource.upsert({ where: { slug: 'barra-100kk' }, update: {}, create: { name: 'Barra de 100kk', slug: 'barra-100kk', category: 'COIN', mobile: true } }),
-    prisma.resource.upsert({ where: { slug: 'pergaminho-a' }, update: {}, create: { name: 'Pergaminho (A)', slug: 'pergaminho-a', category: 'PARCHMENT' as any, mobile: true } }),
-    prisma.resource.upsert({ where: { slug: 'pergaminho-m' }, update: {}, create: { name: 'Pergaminho (M)', slug: 'pergaminho-m', category: 'PARCHMENT' as any, mobile: true } }),
-    prisma.resource.upsert({ where: { slug: 'infernal-scroll' }, update: {}, create: { name: 'Infernal', slug: 'infernal-scroll', category: 'PARCHMENT' as any, mobile: true } }),
-    prisma.resource.upsert({ where: { slug: 'commemorative-coin' }, update: {}, create: { name: 'Commemorative Coin', slug: 'commemorative-coin', category: 'COIN', mobile: true } }),
-    prisma.resource.upsert({ where: { slug: 'black-coin' }, update: {}, create: { name: 'Black Coin', slug: 'black-coin', category: 'COIN', mobile: true } }),
-    prisma.resource.upsert({ where: { slug: 'cythera-m' }, update: {}, create: { name: 'Cythera (M)', slug: 'cythera-m', category: 'CYTHERA', mobile: true } }),
-    prisma.resource.upsert({ where: { slug: 'cythera-a' }, update: {}, create: { name: 'Cythera (A)', slug: 'cythera-a', category: 'CYTHERA', mobile: true } }),
+    prisma.resource.upsert({ where: { slug: 'amago-dl-9' }, update: { name: 'Âmago de Dragão Lendário +9', category: 'MOUNT', mobile: true }, create: { name: 'Âmago de Dragão Lendário +9', slug: 'amago-dl-9', category: 'MOUNT', mobile: true } }),
+    prisma.resource.upsert({ where: { slug: 'amago-dv-9' }, update: { name: 'Âmago de Dragão Vermelho +9', category: 'MOUNT', mobile: true }, create: { name: 'Âmago de Dragão Vermelho +9', slug: 'amago-dv-9', category: 'MOUNT', mobile: true } }),
+    prisma.resource.upsert({ where: { slug: 'barra-100kk' }, update: { name: 'Barra de 100kk', category: 'COIN', mobile: true }, create: { name: 'Barra de 100kk', slug: 'barra-100kk', category: 'COIN', mobile: true } }),
+    prisma.resource.upsert({ where: { slug: 'pergaminho-a' }, update: { name: 'Pergaminho (A)', category: 'PARCHMENT' as any, mobile: true }, create: { name: 'Pergaminho (A)', slug: 'pergaminho-a', category: 'PARCHMENT' as any, mobile: true } }),
+    prisma.resource.upsert({ where: { slug: 'pergaminho-m' }, update: { name: 'Pergaminho (M)', category: 'PARCHMENT' as any, mobile: true }, create: { name: 'Pergaminho (M)', slug: 'pergaminho-m', category: 'PARCHMENT' as any, mobile: true } }),
+    prisma.resource.upsert({ where: { slug: 'infernal-scroll' }, update: { name: 'Infernal', category: 'PARCHMENT' as any, mobile: true }, create: { name: 'Infernal', slug: 'infernal-scroll', category: 'PARCHMENT' as any, mobile: true } }),
+    prisma.resource.upsert({ where: { slug: 'commemorative-coin' }, update: { name: 'Commemorative Coin', category: 'COIN', mobile: true }, create: { name: 'Commemorative Coin', slug: 'commemorative-coin', category: 'COIN', mobile: true } }),
+    prisma.resource.upsert({ where: { slug: 'black-coin' }, update: { name: 'Black Coin', category: 'COIN', mobile: true }, create: { name: 'Black Coin', slug: 'black-coin', category: 'COIN', mobile: true } }),
+    prisma.resource.upsert({ where: { slug: 'cythera-m' }, update: { name: 'Cythera (M)', category: 'CYTHERA', mobile: true }, create: { name: 'Cythera (M)', slug: 'cythera-m', category: 'CYTHERA', mobile: true } }),
+    prisma.resource.upsert({ where: { slug: 'cythera-a' }, update: { name: 'Cythera (A)', category: 'CYTHERA', mobile: true }, create: { name: 'Cythera (A)', slug: 'cythera-a', category: 'CYTHERA', mobile: true } }),
   ]);
 
   console.log(`Created ${resources.length} resources`);
