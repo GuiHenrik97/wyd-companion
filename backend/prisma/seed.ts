@@ -359,13 +359,8 @@ async function main() {
     }),
     prisma.resource.upsert({
       where: { slug: 'barra-prata' },
-      update: { name: 'Barra de Prata (1Bi)', category: 'CYTHERA', mobile: true },
-      create: {
-        name: 'Barra de Prata (1Bi)',
-        slug: 'barra-prata',
-        category: 'CYTHERA',
-        mobile: true,
-      },
+      update: { name: 'Barra de Bi', category: 'COIN' },
+      create: { name: 'Barra de Bi', slug: 'barra-prata', category: 'COIN', mobile: true },
     }),
     prisma.resource.upsert({
       where: { slug: 'folha-mandragora' },
