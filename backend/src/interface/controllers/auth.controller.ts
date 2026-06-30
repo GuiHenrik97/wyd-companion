@@ -47,13 +47,13 @@ export class AuthController {
   }
 
   @Post('refresh')
-  refresh(@Body() dto: RefreshDto, @CurrentUser() user: any) {
-    return this.refreshTokenUseCase.execute(user.id, dto.refreshToken)
+  refresh(@Body() dto: RefreshDto) {
+    return this.refreshTokenUseCase.execute(dto.refreshToken)
   }
 
   @Post('logout')
   @UseGuards(JwtAuthGuard)
-  logout(@CurrentUser() user: any) {
+  logout(@CurrentUser() _user: any) {
     return { message: 'Logout realizado' }
   }
 

@@ -9,20 +9,21 @@ export class RefreshTokenUseCase {
     private jwtService: JwtService,
   ) {}
 
-  async execute(userId: string, refreshToken: string) {
-    const user = await this.userRepo.findById(userId)
-    if (!user || user.refreshToken !== refreshToken) {
-      throw new UnauthorizedException('Refresh token inválido')
-    }
-
+  async execute(refreshToken: string) {
+    let payload: any
     try {
-      this.jwtService.verify(refreshToken, { secret: process.env.JWT_REFRESH_SECRET })
+      payload = this.jwtService.verify(refreshToken, { secret: process.env.JWT_REFRESH_SECRET })
     } catch {
       throw new UnauthorizedException('Refresh token expirado')
     }
 
-    const payload = { sub: user.id, email: user.email }
-    const accessToken = this.jwtService.sign(payload, { expiresIn: '15m' })
+    const user = await this.userRepo.findById(payload.sub)
+    if (!user || user.refreshToken !== refreshToken) {
+      throw new UnauthorizedException('Refresh token inválido')
+    }
+
+    const newPayload = { sub: user.id, email: user.email }
+    const accessToken = this.jwtService.sign(newPayload, { expiresIn: '15m' })
 
     return { accessToken }
   }
